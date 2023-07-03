@@ -58,9 +58,8 @@ wifi 칩셋이 있는 경우 proxmox 페이지에서 제공하는 부팅 파일�
 8. LVM-thin
 9. 총 결과
 10. Debian 설치
-
-1. Debian 설치 
-Debian 설치는 12 bookwarm 기준으로 진행하며 아래 웹 사이트를 통해 설정하여 진행할 수 있다.
+11. Debian 설치
+    Debian 설치는 12 bookwarm 기준으로 진행하며 아래 웹 사이트를 통해 설정하여 진행할 수 있다.
 
 [Install Proxmox VE on Debian 12 Bookworm - Proxmox VE](https://pve.proxmox.com/wiki/Install_Proxmox_VE_on_Debian_12_Bookworm)
 
@@ -99,12 +98,11 @@ gui가 싫거나
 
 [Network Configuration - Proxmox VE](https://pve.proxmox.com/wiki/Network_Configuration)
 
-
 ![](assets/20230703_165529_2023-07-03_164859.png)
 
 설명
 
-nic 카드들 목록 
+nic 카드들 목록
 
 enp5s0 (RealTek 2.5G nic)
 
@@ -116,31 +114,30 @@ enp5s0 은 direct로 연결시킨 nic인데, 어떠한 이유로 스위치가 �
 
 pci express로 장착된 **NIC를 교체했을 때 연결할 네트워크 접근 경로로서** 사용합니다.
 
-dhcp로 설정해도 괜찮지만 dhcp를 잘 할당받지 못하거나, dhcp가 없는 단독망 환경 등에서 설정할 수 있기 때문에 ip 할당을 해놓는 것을 추천해 드립니다. 
+dhcp로 설정해도 괜찮지만 dhcp를 잘 할당받지 못하거나, dhcp가 없는 단독망 환경 등에서 설정할 수 있기 때문에 ip 할당을 해놓는 것을 추천해 드립니다.
 
 vmbr0 으로 할당한 vm에 192.168.0.x대역으로 장치를 passthrough 하여 network에 할당한 상태입니다.
 
-브릿지 설장할 네트워크 장치를 물려야 하며, 주의사항으로는 실제 nic는 활성화 되지 않은 상태로 두어야 합니다. 
+브릿지 설장할 네트워크 장치를 물려야 하며, 주의사항으로는 실제 nic는 활성화 되지 않은 상태로 두어야 합니다.
 
-vmbr1 역시 vm에 192.168.1.x 대역으로 할당하는 용도로 사용합니다. 
+vmbr1 역시 vm에 192.168.1.x 대역으로 할당하는 용도로 사용합니다.
 
-게이트웨이 설정이 되어있지 않은데 10G 라우터나 스위치는 없으므로 단독망이기 떄문에 그렇습니다. 
+게이트웨이 설정이 되어있지 않은데 10G 라우터나 스위치는 없으므로 단독망이기 떄문에 그렇습니다.
 
-없어도 ip만 guest나 외부 장치에 잘 충돌없이 집어넣으면 작동합니다. 
+없어도 ip만 guest나 외부 장치에 잘 충돌없이 집어넣으면 작동합니다.
 
 * sudo systemctl restart network-service 등 설정 완료 후 network 관련 서비스 재시작을 해야 합니다.
 * 당연히 저 파일은 sudo로 편집해야 합니다.
 
-
 4. pci express 장치 passthrough
 
-iommu는 필수입니다. 그리고 몇 가지 설정들을 해야 하므로 아래의 글을 참고해주세요. 
+iommu는 필수입니다. 그리고 몇 가지 설정들을 해야 하므로 아래의 글을 참고해주세요.
 
 [https://www.reddit.com/r/homelab/comments/b5xpua/the_ultimate_beginners_guide_to_gpu_passthrough/ (github.com)](https://gist.github.com/qubidt/64f617e959725e934992b080e677656f)
 
-# Configuring Proxmox 
+__Configuring Proxmox__
 
-이 부분만 진행
+위 링크 글에서 저기 까지만 진행
 
 
 shell에서 lspci로 장치 확인한 다음 관련 장치들 gui에서 할당하거나 할 수 있음.
@@ -149,36 +146,45 @@ shell에서 lspci로 장치 확인한 다음 관련 장치들 gui에서 할당�
 
 ![](assets/20230703_173021_2023-07-03_172139.png)
 
-
-
 ![](assets/20230703_173115_image.png)
 
-
+안쓰는 무선랜카드 중 하나를 할당해서 써도 됩니다. windows의 경우 wifi direct를 기반으로 한 TV 영상전송 혹은 다른 기능들을 쓸 수 있기 때문에 windows guest에 할당하면 유용합니다.
 
 iommu랑 드라이버 설정만 좀 건든 다음엔 gui로 별로 어렵지 않게 gpu passthrough 설정이나 pci passthrough 설정이 가능하며, nvme 장치를 direct로 할당하여 passthrough 해 가지고 바로 부팅시킬 수도 있습니다.
 
-안쓰는 랜카드 중 하나를 할당해서 써도 됩니다. windows의 경우 wifi direct를 기반으로 한 TV 영상전송 혹은 다른 기능들을 쓸 수 있기 때문에 windows guest에 할당하면 유용합니다. 
-
-
-즉, 기존 nvme 디스크를 쉽게 부팅하여 연결할 수 있습니다. 스냅샷 기능이 필요하지 않고, 추후 베어메탈로 이동할 nvme의 경우 위 방법으로 진행하도 되나 windows 10/11의 경우는 추천하지 않습니다. 기종 전환하면서 Nested Virtualization 과 관련한 문제가 있는 모양인지 부팅 실패가 무조건 발생합니다.
-
-이는 윈도우가 현재 사실상 윈도우의 탈을 쓴 hyper-V 기반의 OS 인 점이 가장 큰 이유인듯 합니다. vmware  나 다른 앱플레이어를 실행하는게 어렵고 안드로이드 스튜디오 내의 가상 os 설치에도 지장이 있으므로 관련 기능 (WSL 포함)을 하고자 한다면 포기하는 편이 좋습니다.
-
-아니면 이 문제가 인텔 13세대라는 비교적 최신 cpu라서 발생하는 문제일 수도 있습니다. 추후 패치나 업그레이드 혹은 다른 여러 문제가 해결되면 update 기록을 남길 예정입니다.
-
+즉, 기존 nvme 디스크를 쉽게 부팅하여 연결할 수 있습니다. 스냅샷 기능이 필요하지 않고, 추후 베어메탈로 이동할 nvme의 경우 위 방법으로 진행하도 되나 windows 10/11의 경우는 추천하지 않습니다. (2023-07 기준)
 
 ![](assets/20230703_173550_image.png)
 
-참고: pci-express로 할당하셔야 합니다. 
+참고: pci-express로 할당하셔야 합니다.
 
 6. VM 설치
-
 7. VM 내에서 windows 11 제한사항
+
+cpu host 설정을 한 상태에서 nvme direct passthrough를 통해 직접 연결을 진행했으나 hyper-V 기능을 켜는 경우 Nested Virtualization 과 관련한 문제가 있는 모양인지 부팅 실패가 무조건 발생합니다.
+
+이는 윈도우가 현재 사실상 윈도우의 탈을 쓴 hyper-V 기반의 OS 인 점이 가장 큰 이유인듯 합니다. vmware  나 다른 앱플레이어를 실행하는게 어렵고 안드로이드 스튜디오 내의 가상 os 설치에도 지장이 있으므로 관련 기능 (WSL 포함)을 하고자 한다면 포기하는 편이 좋습니다.
+
+물론 윈도우 11에선 가상 pc인 경우 설치 단계에서 알아서 관련 기능을 다 꺼버리기 때문에 특정 프로그램이나 앱플레이어가 설정을 건드리지 않는 이상 무한부팅 오류를 만들진 않습니다.
+
+참고로 이 문제가 인텔 13세대라는 비교적 최신 cpu라서 발생하는 문제일 수도 있습니다. 추후 패치나 업그레이드 혹은 다른 여러 문제가 해결되면 update 기록을 남길 예정입니다.
+
+gpu의 경우 hw decode / encode 기능을 테스트하진 않았습니다만, 유투브 정도 보는데에는 큰 문제가 발생하진 않았으므로 특별한 가속을 요구하는 것이 아니라면 굳이 필요하진 않을 듯 합니다
+
+![](assets/20230703_175715_image.png)
+
+* nested Virtualization을 잘 사용할 수 있는지 테스트 하는 방법이 있는데, 윈도우 11 기준 코어 격리를 켜서 통과하면 됩니다. 안되면 알아서 풀어버리므로 복원도 쉽게 됩니다.
+* 아니면 윈도우 기능에서 hyper-v를 설정하면 됩니다. (pro만 가능)
+
+이런 기능을 되는지 안되는지 설정할려면 미리 시스템 복원 지점을 만들어 설정해주세요. 앱플레이어 설치로 테스트 하는 것은 권장하지 않습니다. (무슨일이 있어도 설정해놓는 프로그램이므로, 시스템 복원을 진행해도 안풀립니다.)
+
 
 8. xpenology 설치
 
 
+
 9.  LVM-thin
+
 
 
 10. 총 결과
