@@ -1,6 +1,6 @@
 ---
 layout: page
-title: blog.i4624.tk (choi4624.github.io)
+title: choi4624.github.io
 ---
 
 #### choi4624.github.io
