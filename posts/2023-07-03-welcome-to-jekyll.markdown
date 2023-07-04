@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title:  "i4624 blog"
 date:   2023-07-03 12:58:55 +0900
 categories: jekyll update
