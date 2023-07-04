@@ -3,6 +3,8 @@ layout: post
 title:  "proxmox 7.4 설치 및 VM 올리는 분투기"
 date:   2023-07-04 13:58:55 +0900
 categories: virtualization
+tags: [virtualization, proxmox]
+comments: true
 ---
 
 1. 본 글은 인텔 13세대 (12세대 포함) 시스템을 바탕으로 진행한 proxmox 를 설치하는 방법을 기록한 것으로 추후 삽질을 줄이고 체크해야 할 포인트들을 기록해두는 용도로 만든 글입니다.
