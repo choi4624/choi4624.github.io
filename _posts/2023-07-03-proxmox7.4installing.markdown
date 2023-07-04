@@ -66,8 +66,8 @@ wifi 칩셋이 있는 경우 proxmox 페이지에서 제공하는 부팅 파일�
 
 ---
 
-1. Debian 설치
-   Debian 설치는 12 bookwarm 기준으로 진행하며 아래 웹 사이트를 통해 설정하여 진행할 수 있다.
+Debian 설치
+Debian 설치는 12 bookwarm 기준으로 진행하며 아래 웹 사이트를 통해 설정하여 진행할 수 있다.
 
 [Install Proxmox VE on Debian 12 Bookworm - Proxmox VE](https://pve.proxmox.com/wiki/Install_Proxmox_VE_on_Debian_12_Bookworm)
 
@@ -227,4 +227,8 @@ LVM-thin의 경우 공유된 확장성 좋은 디스크층 이라고 보면 되�
 윈도우 11 pro + vmware workstation 으로 만든 수상한 서버를 13세대 intel 위주로 채구축 해본 결과인데 타이밍이 이상하게 proxmox 8 나오기 직전에 이걸 하느라 삽질이 은근 많았다. 심지어 대부분의 홈랩의 경우 8~10세대 intel 시스템 위주로 쓰시는지 12세대의 해결책은 딱히 없더라. proxmox 커뮤니티는 윈 11 hyper-v 안되는거 호소하는 글이 좋좋 검색되던데 다들 잘된다 하고 질문자만 바보되는 사례가 종종 있던데;
 SR-IOV vgpu 있으면 vm에 gpu 물리기 편할텐데 이거 작업한 시점에서 수상하게 실력있는 애니프사가 만든 모듈이 make 안되는 커널이라 나중에 또 따로 해야함
 
-나중에 이 글 보고 삽질 덜하고 나중에 덜 삽질하고자 의식의 흐름대로 글을 쓴거라
+나중에 이 글 보고 삽질 덜하고 나중에 덜 삽질하고자 의식의 흐름대로 글을 쓴거라 거의 신세한탄글 입니다. 
+
+처음 써보는 깃헙 블로그 글
+
+목자 왜 고장났대
