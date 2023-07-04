@@ -29,7 +29,7 @@ twitter_username: none
 github_username:  choi4624
 
 # Build settings
-theme: minima
+theme: Modernist
 plugins:
   - jekyll-feed
 
