@@ -29,10 +29,10 @@ twitter_username: none
 github_username:  choi4624
 
 # Build settings
-remote_theme: pages-themes/modernist@v0.2.0
+theme: minimal-mistakes-jekyll
 plugins:
   - jekyll-remote-theme # add this line to the plugins list if you already have one
-  - jekyll-feed
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.

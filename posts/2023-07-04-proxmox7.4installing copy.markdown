@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "proxmox 7.4 설치 및 VM 올리는 분투기"
-date:   2023-07-04 13:58:55 +0900
+date:   2023-07-04 09:58:55 +0900
 categories: virtualization
 tags: [virtualization, proxmox]
 comments: true
