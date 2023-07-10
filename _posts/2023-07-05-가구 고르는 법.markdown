@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "proxmox 7.4 설치 및 VM 올리는 분투기"
-date:   2023-07-03 09:58:55 +0900
+title:  "2023-07-05-가구 고르는 법"
+date:   2023-07-05 09:58:55 +0900
 categories: interior
 tags: [ikea, home, furniture]
 comments: true
