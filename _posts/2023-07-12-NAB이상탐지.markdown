@@ -1,0 +1,90 @@
+---
+layout: post
+title:  "2023-07-12-NAB이상탐지"
+date:   2023-07-12 10:31:00 +0900
+categories: computer
+tags: [python, ipynb, data,linearAlgebra,kaggle,swproject]
+comments: true
+---
+# 시계열 데이터를 통한 이상 탐지 방식 (Numenta Anomaly)
+
+본 프로젝트는 아래의 캐글 데이터셋을 통해 실행한 벤치마크 및 데이터 탐색 및 결과에 대해 소개하는 글 입니다.
+
+데이터셋: [Numenta Anomaly Benchmark (NAB) | Kaggle](https://www.kaggle.com/datasets/boltzmannbrain/nab?resource=download)
+
+유용한 코드: [Anomaly Detection - Streaming Data (Extended) | Kaggle](https://www.kaggle.com/code/neomatrix369/anomaly-detection-streaming-data-extended)
+
+사실상 이 코드에서 몇몇 요소 가져다가 해석한다던가 하는게 전부(?)
+
+## 프로젝트 소개 
+
+numpy와 pandas를 통해 데이터 처리 및 분류를 진행하며, 본 프로젝트에선 선형대수적 알고리즘을 통해 이상값을 탐지하고 matplotlib 를 통해 데이터를 시각화함과 동시에, numpy로 해석된 값이 이상 값인 경우 해당 이상값에 대한 콘솔 출력까지 요청하는 방향으로 진행하려 한다.
+
+위 데이터 글을 통해 소개된 몇몇 알고리즘과 데이터에 대한 분석을 함과 동시에, 시각화만 하지 말고 데이터 처리에 대한 결과를 출력함으로서 후속 처리 절차 (경고 메시지를 보내거나, 그래프에서 빼버리고 점으로만 표시한다던지)를 진행한다. 
+
+## 데이터 탐색
+
+```
+import warnings
+warnings.filterwarnings('ignore')
+
+import pickle # dump variables
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import datetime as dt # datetime lib
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+```
+
+마크다운 코드에 효과주는 방법은 어디있나요
+
+해당 프로젝트에선 라이브러리를 위와 같은 것들로 사용하여 데이터 정제와 출력을 진행한다. 
+
+또한, 몇몇 설정을 통해 그냥 csv를 출력하지 않고 조금 이쁘게 출력하도록 한다. matplot의 설정에 따라 그래프가 요동칠 수 있고, 아니면 불필요하게 너무 많은 정보를 제공할 수 있다. 
+
+아래는 링크의 프로젝트에서 사용한 라이브러리들의 기본 설정이다. 
+
+```
+# Matplotlib styles and plot again.
+plt.rcdefaults()
+
+sns.set(rc={'figure.figsize': tuple(plt.rcParams['figure.figsize'])})
+sns.set(style="whitegrid", font_scale=1.75)
+
+# prettify plots
+plt.rcParams['figure.figsize'] = [20.0, 5.0]
+plt.rcParams['figure.dpi'] = 200
+sns.set_palette(sns.color_palette("muted"))
+
+%matplotlib inline
+
+#
+# Increase the quality and resolution of our charts so we can copy/paste or just
+# directly save from here.
+#
+# See https://ipython.org/ipython-doc/3/api/generated/IPython.display.html
+from IPython.display import set_matplotlib_formats
+set_matplotlib_formats('retina', quality=100)
+
+## You can also just do this in Colab/Jupyter, some "magic":
+%config InlineBackend.figure_format='retina'
+```
+
+
+### 데이터 구조 
+
+![](assets/20230712_104338_image.png)
+
+프로젝트의 데이터셋은 대부분 csv 파일 형식으로 되어 있으며, pandas를 통해 csv 파일을 읽고 이를 numpy 라이브러리로 선형대수적(linear-algbrea) 방식으로 데이터를 계산하고 해석하는 절차를 통해 프로젝트에서 이상값을 탐지 - 후속 절차를 진행한다. 
+
+코랩이나 다른 클라우드 시스템의 경우 파일을 업로드하고 이를 압축 해제하는게 먼저인데 (왜 코랩은 폴더채로 업로드를 막은건지) 아래 간단한 코드를 사용하여 해제하고 작동할 수 있다. 
+
+
+```
+## colab start the "/content" url to upload file (recommanded) 
+## 만약 jupyter 등의 다른 노트북을 쓴다면, 경로를 재주것 바꿔주자. 아래 소개할 코드들도 다 /content/NAB로 진행됨  
+import zipfile
+with zipfile.ZipFile('/content/archive.zip', 'r') as zip_ref:
+    zip_ref.extractall('/content/NAB')
+```
