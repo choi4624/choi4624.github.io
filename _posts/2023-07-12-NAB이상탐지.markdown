@@ -191,12 +191,12 @@ class StreamingMovingAverage:
         self.min_nof_records_in_model = 3
         self.max_nof_records_in_model = 3 * self.min_nof_records_in_model
         self.anomally = {}
-    
+  
 
     def detect(self, timestamp: int, value: float, dumping: bool=False) -> bool:
         '''Detect if is a Anomaly'''
         ## plot_anomalies 클래스에 preds = [model.detect(i, v, dumping=True) for i, v in zip(X, Y)] 에서 작동하는 코드 
-    
+  
 
         self._update_state(timestamp, value)
         expected_value = self._expected_value(timestamp)
@@ -212,8 +212,8 @@ class StreamingMovingAverage:
                 response = True
                 ## 임계값의 timestamp와 값을 출력하도록 설정하기 위해 저장 
                 self.anomally[timestamp] = {'timestamp': timestamp, 'value': value}
-            
-            
+          
+          
 
         # dumping or not
         if dumping: return (response, curr_value, deviation)
@@ -404,7 +404,31 @@ plt.show()
 
 threshold를 75 정도로 설정했을 때의 이상 감임을 판단할 수 있는 마커의 분포 형태
 
-
-이상 값을 분류할 때, cpu 사용량을 바탕으로 낸 결과는 조금 많이 threshold가 너무 낮은 탓인지 거의 대부분의 상황에 cpu 사용량의 증가가 전부 이상 값으로 판정되는 경향이 있다. 
+이상 값을 분류할 때, cpu 사용량을 바탕으로 낸 결과는 조금 많이 threshold가 너무 낮은 탓인지 거의 대부분의 상황에 cpu 사용량의 증가가 전부 이상 값으로 판정되는 경향이 있다.
 
 또한, 가장 큰 이상값 3군데 중 2군데는 꼭짓점이 아닌, 증가하고 감소하는 영역에서 이를 이상 값으로 판정했는데 다른 데이터세트도 동일하게 분석해야 결과가 나올 듯 하다.
+
+
+2. 4개 데이터를 동일하게 처리한 결과
+
+
+![](assets/20230712_164652_2023-07-12_164640.png)
+
+
+![](assets/20230712_164910_image.png)
+
+
+위: threshold 75 
+
+아래: threshold 90 
+
+cpu | traffic
+twitter | network 
+
+순서로 배치됨 
+
+좀 더 확인해봐야 할 것 같지만, 비교적 cpu와 twitter의 경우 이상 값을 판단하고 이를 마커에 넣어두는게 좀 더 유의미한 반면에, traffic과 network에 대해서는 이상 값을 판단하지를 못하고 threshold를 조절하더라도 안되는 경우가 나온다. 최악은 network인데, 통신이 적은 걸 이상 값으로 판단하는 상태이다. 
+
+모델을 조정하여 해당 데이터가 좀 더 유용하도록 수정할 필요가 있으며, 내일 좀 더 조정한 다음에 유의미한 분석과 모델 구성을 진행해야 할 듯 하다. 또한, cpu 데이터의 경우 사용량이 낮은 건 중요하지 않은데 이를 이상 값으로 판단하는 상황인 만큼 이를 제어하는 것 역시 필요해 보인다. 
+
+사실 cpu는 사용량 애초에 낮은데 분석할 이유가 있나?
