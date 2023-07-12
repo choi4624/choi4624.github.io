@@ -16,11 +16,11 @@ comments: true
 
 사실상 이 코드에서 몇몇 요소 가져다가 해석한다던가 하는게 전부(?)
 
-## 프로젝트 소개 
+## 프로젝트 소개
 
 numpy와 pandas를 통해 데이터 처리 및 분류를 진행하며, 본 프로젝트에선 선형대수적 알고리즘을 통해 이상값을 탐지하고 matplotlib 를 통해 데이터를 시각화함과 동시에, numpy로 해석된 값이 이상 값인 경우 해당 이상값에 대한 콘솔 출력까지 요청하는 방향으로 진행하려 한다.
 
-위 데이터 글을 통해 소개된 몇몇 알고리즘과 데이터에 대한 분석을 함과 동시에, 시각화만 하지 말고 데이터 처리에 대한 결과를 출력함으로서 후속 처리 절차 (경고 메시지를 보내거나, 그래프에서 빼버리고 점으로만 표시한다던지)를 진행한다. 
+위 데이터 글을 통해 소개된 몇몇 알고리즘과 데이터에 대한 분석을 함과 동시에, 시각화만 하지 말고 데이터 처리에 대한 결과를 출력함으로서 후속 처리 절차 (경고 메시지를 보내거나, 그래프에서 빼버리고 점으로만 표시한다던지)를 진행한다.
 
 ## 데이터 탐색
 
@@ -39,11 +39,11 @@ import matplotlib.pyplot as plt
 
 마크다운 코드에 효과주는 방법은 어디있나요
 
-해당 프로젝트에선 라이브러리를 위와 같은 것들로 사용하여 데이터 정제와 출력을 진행한다. 
+해당 프로젝트에선 라이브러리를 위와 같은 것들로 사용하여 데이터 정제와 출력을 진행한다.
 
-또한, 몇몇 설정을 통해 그냥 csv를 출력하지 않고 조금 이쁘게 출력하도록 한다. matplot의 설정에 따라 그래프가 요동칠 수 있고, 아니면 불필요하게 너무 많은 정보를 제공할 수 있다. 
+또한, 몇몇 설정을 통해 그냥 csv를 출력하지 않고 조금 이쁘게 출력하도록 한다. matplot의 설정에 따라 그래프가 요동칠 수 있고, 아니면 불필요하게 너무 많은 정보를 제공할 수 있다.
 
-아래는 링크의 프로젝트에서 사용한 라이브러리들의 기본 설정이다. 
+아래는 링크의 프로젝트에서 사용한 라이브러리들의 기본 설정이다.
 
 ```
 # Matplotlib styles and plot again.
@@ -71,15 +71,13 @@ set_matplotlib_formats('retina', quality=100)
 %config InlineBackend.figure_format='retina'
 ```
 
-
-### 데이터 구조 
+### 데이터 구조
 
 ![](assets/20230712_104338_image.png)
 
-프로젝트의 데이터셋은 대부분 csv 파일 형식으로 되어 있으며, pandas를 통해 csv 파일을 읽고 이를 numpy 라이브러리로 선형대수적(linear-algbrea) 방식으로 데이터를 계산하고 해석하는 절차를 통해 프로젝트에서 이상값을 탐지 - 후속 절차를 진행한다. 
+프로젝트의 데이터셋은 대부분 csv 파일 형식으로 되어 있으며, pandas를 통해 csv 파일을 읽고 이를 numpy 라이브러리로 선형대수적(linear-algbrea) 방식으로 데이터를 계산하고 해석하는 절차를 통해 프로젝트에서 이상값을 탐지 - 후속 절차를 진행한다.
 
-코랩이나 다른 클라우드 시스템의 경우 파일을 업로드하고 이를 압축 해제하는게 먼저인데 (왜 코랩은 폴더채로 업로드를 막은건지) 아래 간단한 코드를 사용하여 해제하고 작동할 수 있다. 
-
+코랩이나 다른 클라우드 시스템의 경우 파일을 업로드하고 이를 압축 해제하는게 먼저인데 (왜 코랩은 폴더채로 업로드를 막은건지) 아래 간단한 코드를 사용하여 해제하고 작동할 수 있다.
 
 ```
 ## colab start the "/content" url to upload file (recommanded) 
@@ -88,3 +86,325 @@ import zipfile
 with zipfile.ZipFile('/content/archive.zip', 'r') as zip_ref:
     zip_ref.extractall('/content/NAB')
 ```
+
+데이터 양이 많은 편 이므로, 이 중 몇개에 대해서만 관련 데이터를 넣고 이를 출력하도록 한다
+
+```
+
+
+## input data 
+cpu = pd.read_csv('/content/NAB/realAWSCloudwatch/realAWSCloudwatch/ec2_cpu_utilization_53ea38.csv')
+network = pd.read_csv('/content/NAB/realAWSCloudwatch/realAWSCloudwatch/ec2_network_in_5abac7.csv')
+traffic = pd.read_csv('/content/NAB/realTraffic/realTraffic/TravelTime_387.csv')
+
+## 각각 cpu, network, traffic 관련 데이터 원본 
+```
+
+데이터 양이 많은 편 이므로, 이 중 몇개에 대해서만 관련 데이터를 넣고 이를 출력하도록 한다
+
+```
+## ploting data 
+cpu.plot()
+network.plot()
+traffic.plot()
+```
+
+데이터를 출력했을 때의 결과
+
+cpu - network - traffic
+
+![](assets/20230712_112031_1.png)
+
+![](assets/20230712_112031_2.png)
+
+![](assets/20230712_112031_3.png)
+
+cpu 데이터의 경우, 다른 데이터에 비해 노이즈가 있는 편이고 네트워크 데이터는 특정 시점에서 급격한 상승이 발생하며, 교통 데이터는 일부 이상값이 존재하는 데이터 패턴을 확인할 수 있다.
+
+교통 데이터의 경우 원본을 그래프로 출력하는 것 만으로도 이상 값이 눈에 보이는 편이나, 다른 두 데이터셋에 대해서는 이상값을 판단할려면 추가적인 정제 작업을 거쳐야 할 것이다.
+
+## 데이터 분석 및 시각화
+
+### 기본적인 알고리즘을 통한 시각화
+
+해당 글에서 소개된 알고리즘 중 가장 먼저 위에 있다는 이유로 실행한 Streaming Moving Average 에 대해 실행해보고 시각화를 진행해본다.
+
+시각화에 사용하는 메소드(? 파이썬을 자주 하지 않아 편의상 이것으로 부름)는 아래와 같은 메소드를 사용하는데, LSTM이 아니라 전부 Moving~~ 형태의 알고리즘에는 이 방법으로 시각화를 하였으니 참고해 주기 바란다.
+
+```
+def plot_anomalies(dfs, algorithm, parameters, title=False, dumping=False):
+    '''Plot the Streaming Data (an Anomalies)'''
+    n = len(dfs)
+    lin, col = 1, 1
+    for i in range(1, n+1):
+        if lin * col < i:
+            if lin == col: col += 1
+            else: lin += 1
+    # create a subplot
+    model_name = algorithm.__name__
+    fig, axes = plt.subplots(lin, col, squeeze=False, sharex=False, sharey=False, figsize=(col*20, lin*5))
+    fig.suptitle(f'Anomaly Detection - {model_name} ({parameters})')
+    xlin, xcol = 0, 0
+    for i, df in enumerate(dfs):
+        # get data 
+        get_timestamp = lambda x: dt.datetime.strptime(x,'%Y-%m-%d %H:%M:%S').timestamp()
+        X = df.timestamp.apply(lambda x: int(get_timestamp(x)))
+        Y = df.value
+        # predict anomalies
+        model = algorithm(**parameters)
+        preds = [model.detect(i, v, dumping=True) for i, v in zip(X, Y)]
+        pred, values, stds = tuple(zip(*preds))
+        # plot the results
+        af  = pd.DataFrame(data={'x':X, 'value':Y, 'pred':pred})
+        af2 = pd.DataFrame(data={'x':X, 'value':values, 'pred':pred, 'std': stds})
+        af2['ymin'] = af2['value'] - af2['std']
+        af2['ymax'] = af2['value'] + af2['std']
+        size = af.pred.astype(int) * 20
+        sns.lineplot(ax=axes[xlin, xcol], data=af, x='x', y='value')
+        sns.scatterplot(ax=axes[xlin, xcol], data=af, x='x', y='value', hue='pred', s=size)
+        if dumping: axes[xlin, xcol].fill_between(af2.x, af2.value, af2.ymax, facecolor='green', alpha=0.2)
+        if title: axes[xlin, xcol].set_title(f'{title[i]}')
+        # update posix
+        xlin += 1
+        if xlin == lin: xlin,xcol = 0, xcol+1
+  
+
+    plt.tight_layout()
+    plt.show()
+
+    ## print anomally 
+   ## model.print();
+```
+
+1. 일단 단순한 모델을 사용하여 시각화
+
+thershold 가 1이냐 2냐에 따른 차이 비교를 진행하는데 아래의 코드를 사용하여 다음과 같은 plot 를 그리도록 하였다.
+
+```
+class StreamingMovingAverage:
+    '''Moving Average algorithm'''
+    # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.rolling.html
+
+    def __init__(self, threshold=1.5) -> None:
+        # Parameters
+        self.max_deviation_from_expected = threshold
+        self.min_nof_records_in_model = 3
+        self.max_nof_records_in_model = 3 * self.min_nof_records_in_model
+        self.anomally = {}
+    
+
+    def detect(self, timestamp: int, value: float, dumping: bool=False) -> bool:
+        '''Detect if is a Anomaly'''
+        ## plot_anomalies 클래스에 preds = [model.detect(i, v, dumping=True) for i, v in zip(X, Y)] 에서 작동하는 코드 
+    
+
+        self._update_state(timestamp, value)
+        expected_value = self._expected_value(timestamp)
+        # is there enough data and is not NaN value
+
+        response, curr_value, deviation = False, value, 0.0
+        if self._enough_data() and not np.isnan(expected_value):
+            # is the value out of the boundary? when it decrease
+            curr_value = expected_value
+            deviation = self._standard_deviation() * self.max_deviation_from_expected
+            # when it is higher than expected
+            if expected_value + deviation < value:
+                response = True
+                ## 임계값의 timestamp와 값을 출력하도록 설정하기 위해 저장 
+                self.anomally[timestamp] = {'timestamp': timestamp, 'value': value}
+            
+            
+
+        # dumping or not
+        if dumping: return (response, curr_value, deviation)
+        else: return response
+
+    def _update_state(self, timestamp: int, value: float) -> None:
+        '''Update the model state'''
+        # check if it is the first time the model is run or if there is a big interval between the timestamps
+        if not hasattr(self, 'previous_timestamp'):
+            self._init_state(timestamp)
+        # update the model state
+        self.previous_timestamp = timestamp
+        self.data_streaming.append(value)
+        # is there a lot of data? remove one record
+        if len(self.data_streaming) > self.max_nof_records_in_model:
+            self.data_streaming.pop(0)
+
+    def _init_state(self, timestamp: int) -> None:
+        '''Reset the parameters'''
+        self.previous_timestamp = timestamp
+        self.data_streaming = list()
+
+    def _enough_data(self) -> bool:
+        '''Check if there is enough data'''
+        return len(self.data_streaming) >= self.min_nof_records_in_model
+
+    def _expected_value(self, timestamp: int) -> float:
+        '''Return the expected value'''
+        data = self.data_streaming
+        data = pd.Series(data=data, dtype=float)
+        many = self.min_nof_records_in_model
+        return data.rolling(many, min_periods=1).mean().iloc[-1]
+
+    def _standard_deviation(self) -> float:
+        '''Return the standard deviation'''
+        data = self.data_streaming
+        return np.std(data, axis=0)
+
+    def get_state(self) -> dict:
+        '''Get the state'''
+        self_dict = {key: value for key, value in self.__dict__.items()}
+        return pickle.dumps(self_dict, 4)
+
+    def set_state(self, state) -> None:
+        '''Set the state'''
+        _self = self
+        ad = pickle.loads(state)
+        for key, value in ad.items():
+            setattr(_self, key, value)
+
+
+## pandas 를 이용해 이상 값 프린팅 
+    def print(self):
+      anomally = self.anomally
+      df = pd.DataFrame.from_dict(anomally, orient='index', columns=['timestamp', 'value'])
+      df.index = df.index.map(lambda x: x // 1000)
+      df.columns = ['timestamp','Value']
+      print(df.to_string())
+```
+
+![](assets/20230712_114247_4.png)
+
+![](assets/20230712_114247_5.png)
+
+시각화에 따른 결과를 분석한 결과 해당 알고리즘에선 theresold, 임계값에 대한 부분이 이상값이냐 아니냐를 분석하는 데에 큰 영향을 미친다. 수학적 알고리즘 방식으로 분석된 데이터의 경우 timestamp 간의 비교를 통해 어떤 임계점이 있는 경우를 이상값으로 판단하는 경향이 있는 듯 하다.
+
+2. StreamingMovingMAD를 통해 시각화
+
+해당 방법으로 시각화를 하는 알고리즘과 곧 후술할 LSTM 모델을 통한 시각화 이렇게 진행할 것이다. 이 모델 사용한 이유는, 평균분산을 바탕으로 한 특별한 요소가 있으면서 코드가 비교적 간결하여 LSTM 과의 비교가 용이할 것으로 예상되었기 때문이다.
+
+```
+def mean_abs_dev(data):
+    deviance = sum(abs(data - data.mean()))
+    return deviance / len(data)
+```
+
+```
+class StreamingMovingMAD(StreamingMovingAverage):
+    '''Moving Mean Absolute Deviation (M.A.D) - using M.A.D instead of Arithmetic Mean (or Average)'''
+
+    def __init__(self, threshold=1.5) -> None:
+        super().__init__()
+        # Parameters
+        self.max_deviation_from_expected = threshold
+
+    def _enough_data(self) -> bool:
+        '''Check if there is enough data'''
+        return len(self.data_streaming) > 0
+  
+    def _standard_deviation(self) -> float:
+        '''Return the standard deviation'''
+        data = self.data_streaming
+        data = pd.Series(data=data, dtype=float)
+        variance = mean_abs_dev(data) - data
+        return pow(sum(variance ** 2) / len(data), 1/2)  
+
+    def _expected_value(self, timestamp: int) -> float:
+        '''Return the expected value'''
+        data = self.data_streaming
+        data = pd.Series(data=data, dtype=float)
+        return mean_abs_dev(data)
+```
+
+```
+algorithm = StreamingMovingMAD
+parameters = {'threshold': 2.0}
+title = ['CPU Utilization', 'Network Usage', 'Travel Time', 'Twitter Volume']
+plot_anomalies([cpu, network, traffic, twitter], algorithm, parameters, title)
+```
+
+![](assets/20230712_154300_7png.png)
+
+![](assets/20230712_154311_2023-07-12_154251.png)
+
+해당 데이터를 통해 확인할 수 있는 점은 MAD 방식으로 이상 탐지를 진행할 때에는 트위터 볼륨 값의 상당수가 이상 값으로 판정이 되며, 이를 보완할 방법이 여러 가지가 필요하게 된다. threshold를 줄여서 판단하거나, 아니면 트위터에 한해 다른 알고리즘을 사용하거나 할 필요가 있어 보인다.
+
+이를 보완하기 위해 다른 통계적 알고리즘을 사용하는 대신, LSTM 방식을 통해 4개 항목을 테스트하고, 이를 비교하는 과정을 거치려 한다.
+
+### LSTM을 통한 데이터 분석 및 시각화
+
+1. LSTM은 무엇인가
+
+![](assets/20230712_152936_2023-07-12_152921.png)
+
+무슨 이상한 필기가 같이 적혀있는데, 크게 신경 쓸 필요 없이 게이트 여러개로 기억을 유지하면서 일부는  유지하고, 새로운 데이터를 받아들여가면서 장기적인 시계열 데이터에 적합한 모델로 소개가 된 모델이다.이를 묘사한 논리 회로도가 위와 같다.
+
+방구석 데이터사이언티스트는 이걸 뿌리부터 건들 필요 없이. `model.add(LSTM(50, activation='relu', input_shape=(None, 1)))` 이거 한줄만 쳐도 된다. 정확한 사용 방법은 텐서플로우 model api를 참고해가면서 활성함수나 노드개수 등등등을 지정하면서 조정을 할 필요가 있으나 이 프로젝트에선 제공되는 데이터가 크게 무겁지 않기 때문에 기본적인 부분만 조정하여 작성한다.
+
+```
+
+from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense
+
+## 위에서 이미 import 한 패키지면 아래는 생략 가능 
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt 
+
+# Step 1: Load and preprocess data
+
+data = pd.read_csv('/content/NAB/realAWSCloudwatch/realAWSCloudwatch/ec2_cpu_utilization_53ea38.csv')
+data['timestamp'] = pd.to_datetime(data['timestamp']) 
+## timestamp 영역의 데이터는 String으로 읽었으므로, unix datetime으로 변환이 필요하다 
+data['timestamp'] = data['timestamp'].astype(np.int64)  # Convert to nanoseconds since the Unix epoch
+values = data['value'].values.reshape(-1, 1)
+
+# Normalize the 'timestamp' column
+scaler = MinMaxScaler()
+data['timestamp'] = scaler.fit_transform(data['timestamp'].values.reshape(-1, 1))
+## datetime을 normalize 하여 위의 비 LSTM 모델과 유사한 그래프를 그릴 수 있도록 설정 
+
+# Step 2: Split data into training and test sets
+train_size = int(len(values) * 0.8)
+train_data, test_data = values[:train_size], values[train_size:]
+train_timestamps, test_timestamps = data['timestamp'][:train_size], data['timestamp'][train_size:]
+## 항상 train 과 test 데이터를 8:2로 나누는 것이 적절하다고 항상 이렇게 나눈다. 
+
+# Step 3: Build and train LSTM model
+model = Sequential()
+## 시퀸셜 모델 << cnn대비 rnn에 적합하도록 모델 설정 
+model.add(LSTM(50, activation='relu', input_shape=(None, 1)))
+model.add(Dense(1))
+model.compile(optimizer='adam', loss='mse')
+model.fit(train_data, train_data, epochs=25, batch_size=128)
+
+# Step 4: Perform anomaly detection
+predicted_values = model.predict(test_data)
+mse = np.mean(np.power(test_data - predicted_values, 2), axis=1)
+threshold = np.percentile(mse, 75)  # Adjust the percentile threshold as needed
+## 70~95 사이를 설정, 이 값이 곧 모델의 민감한 정도?를 판단할 수 있는 기준이 된다. 
+anomalies = np.where(mse > threshold)[0]
+
+
+# Step 5: Create plot with marked anomalies
+plt.plot(test_timestamps, test_data, label='Actual')
+plt.scatter(np.take(test_timestamps, anomalies), np.take(test_data, anomalies), color='red', label='Anomaly')
+plt.xlabel('Normalized Timestamp')
+plt.ylabel('Value')
+plt.legend()
+plt.show()
+
+```
+
+1. ec2_cpu_utilization_53ea38 분석 결과
+
+![](assets/20230712_154345_8.png)
+
+threshold를 75 정도로 설정했을 때의 이상 감임을 판단할 수 있는 마커의 분포 형태
+
+
+이상 값을 분류할 때, cpu 사용량을 바탕으로 낸 결과는 조금 많이 threshold가 너무 낮은 탓인지 거의 대부분의 상황에 cpu 사용량의 증가가 전부 이상 값으로 판정되는 경향이 있다. 
+
+또한, 가장 큰 이상값 3군데 중 2군데는 꼭짓점이 아닌, 증가하고 감소하는 영역에서 이를 이상 값으로 판정했는데 다른 데이터세트도 동일하게 분석해야 결과가 나올 듯 하다.
