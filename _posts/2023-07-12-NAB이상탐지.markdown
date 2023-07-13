@@ -337,7 +337,7 @@ title = ['CPU Utilization', 'Network Usage', 'Travel Time', 'Twitter Volume']
 plot_anomalies([cpu, network, traffic, twitter], algorithm, parameters, title)
 ```
 
-![](..//assets/20230712_154300_7png.png)
+![](/assets/20230712_154300_7png.png)
 
 ![](/assets/20230712_154311_2023-07-12_154251.png)
 
@@ -530,7 +530,7 @@ traffic | twitter
 
 checked 라는 레이블을 붙여, 해당 값이 checked 인지 판단하도록 평가를 진행하고, 해당 평가를 통해 checked 상태와 anomaly 상태의 비교를 진행하고 각 데이터별로 threshold 를 나눠서 진행하는 것을 해보려 한다.
 
-![](../assets/20230713_142005_2023-07-13_140445.png)
+![](/assets/20230713_142005_2023-07-13_140445.png)
 
 cpu | network
 
@@ -565,7 +565,7 @@ traffic | twitter
 
 그리고, 라벨 안붙은것도 라벨 붙여서 그래프를 한번에 보기 편하게 설정해준다.
 
-![](../assets/20230713_145538_2023-07-13_145524.png)
+![](/assets/20230713_145538_2023-07-13_145524.png)
 
 최종적으로 이상 탐지 결과가 위와 같이 지정되었는데, 진행한 작업은 다음과 같다.
 
@@ -587,7 +587,7 @@ traffic | twitter
 
 [https://colab.research.google.com/drive/1AAprVJx3Z73lhPj2KxIy_Wn8nTjW2xAY?usp=sharing](https://colab.research.google.com/drive/1AAprVJx3Z73lhPj2KxIy_Wn8nTjW2xAY?usp=sharing)
 
-![](../assets/20230713_161228_2023-07-13_161213.png)
+![](/assets/20230713_161228_2023-07-13_161213.png)
 
 notebook의 목차 기능을 이용하면, 영역별로 코드를 보기 좀 더 수월하다.
 
