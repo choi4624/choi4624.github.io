@@ -4,13 +4,13 @@ title:  "2023-07-12-NAB이상탐지"
 date:   2023-07-12 10:31:00 +0900
 categories: computer
 tags: [python, ipynb, data,linearAlgebra,kaggle,swproject]
-comments: true
+comments: treu
 ---
 # 시계열 데이터를 통한 이상 탐지 방식 (Numenta Anomaly)
 
 본 프로젝트는 아래의 캐글 데이터셋을 통해 실행한 벤치마크 및 데이터 탐색 및 결과에 대해 소개하는 글 
 
-[20230713_125122_2022-09-01_231109.png](../../../../assets/20230713_125122_2022-09-01_231109.png)
+[20230713_125122_2022-09-01_231109.png](/assets20230713_125122_2022-09-01_231109.png)
 
 입니다.
 
@@ -81,7 +81,7 @@ set_matplotlib_formats('retina', quality=100)
 
 ### 데이터 구조
 
-![](assets/20230712_104338_text.png)
+![](/assets/20230712_104338_text.png)
 
 프로젝트의 데이터셋은 대부분 csv 파일 형식으로 되어 있으며, pandas를 통해 csv 파일을 읽고 이를 numpy 라이브러리로 선형대수적(linear-algbrea) 방식으로 데이터를 계산하고 해석하는 절차를 통해 프로젝트에서 이상값을 탐지 - 후속 절차를 진행한다.
 
@@ -121,11 +121,11 @@ traffic.plot()
 
 cpu - network - traffic
 
-![](./assets/20230712_112031_1.png)
+![](/assets/20230712_112031_1.png)
 
-![](./assets/20230712_112031_2.png)
+![](/assets/20230712_112031_2.png)
 
-![](./assets/20230712_112031_3.png)
+![](/assets/20230712_112031_3.png)
 
 cpu 데이터의 경우, 다른 데이터에 비해 노이즈가 있는 편이고 네트워크 데이터는 특정 시점에서 급격한 상승이 발생하며, 교통 데이터는 일부 이상값이 존재하는 데이터 패턴을 확인할 수 있다.
 
@@ -282,9 +282,9 @@ class StreamingMovingAverage:
       print(df.to_string())
 ```
 
-![](assets/20230712_114247_4.png)
+![](/assets/20230712_114247_4.png)
 
-![](assets/20230712_114247_5.png)
+![](/assets/20230712_114247_5.png)
 
 시각화에 따른 결과를 분석한 결과 해당 알고리즘에선 theresold, 임계값에 대한 부분이 이상값이냐 아니냐를 분석하는 데에 큰 영향을 미친다. 수학적 알고리즘 방식으로 분석된 데이터의 경우 timestamp 간의 비교를 통해 어떤 임계점이 있는 경우를 이상값으로 판단하는 경향이 있는 듯 하다.
 
@@ -332,9 +332,9 @@ title = ['CPU Utilization', 'Network Usage', 'Travel Time', 'Twitter Volume']
 plot_anomalies([cpu, network, traffic, twitter], algorithm, parameters, title)
 ```
 
-![](../assets/20230712_154300_7png.png)
+![](..//assets/20230712_154300_7png.png)
 
-![](assets/20230712_154311_2023-07-12_154251.png)
+![](/assets/20230712_154311_2023-07-12_154251.png)
 
 해당 데이터를 통해 확인할 수 있는 점은 MAD 방식으로 이상 탐지를 진행할 때에는 트위터 볼륨 값의 상당수가 이상 값으로 판정이 되며, 이를 보완할 방법이 여러 가지가 필요하게 된다. threshold를 줄여서 판단하거나, 아니면 트위터에 한해 다른 알고리즘을 사용하거나 할 필요가 있어 보인다.
 
@@ -344,7 +344,7 @@ plot_anomalies([cpu, network, traffic, twitter], algorithm, parameters, title)
 
 1. LSTM은 무엇인가
 
-![](assets/20230712_152936_2023-07-12_152921.png)
+![](/assets/20230712_152936_2023-07-12_152921.png)
 
 무슨 이상한 필기가 같이 적혀있는데, 크게 신경 쓸 필요 없이 게이트 여러개로 기억을 유지하면서 일부는  유지하고, 새로운 데이터를 받아들여가면서 장기적인 시계열 데이터에 적합한 모델로 소개가 된 모델이다.이를 묘사한 논리 회로도가 위와 같다.
 
@@ -408,7 +408,7 @@ plt.show()
 
 1. ec2_cpu_utilization_53ea38 분석 결과
 
-![](/_posts/assets/20230712_154345_8.png)
+![](/_posts//assets/20230712_154345_8.png)
 
 threshold를 75 정도로 설정했을 때의 이상 감임을 판단할 수 있는 마커의 분포 형태
 
@@ -418,9 +418,9 @@ threshold를 75 정도로 설정했을 때의 이상 감임을 판단할 수 있
 
 2. 4개 데이터를 동일하게 처리한 결과
 
-![](assets/20230712_164652_2023-07-12_164640.png)
+![](/assets/20230712_164652_2023-07-12_164640.png)
 
-![](assets/20230712_164910_image.png)
+![](/assets/20230712_164910_image.png)
 
 위: threshold 75
 
@@ -512,13 +512,13 @@ cpu | network
 
 traffic | twitter
 
-![](assets/20230713_113210_image.png)
+![](/assets/20230713_113210_image.png)
 
 트위터에 한해선 생각보다 잘 나온 이상 탐지가 수행되었으며, traffic 에 대해서도 어제 보지 못했던 낮은 값에 점이 찍혀있는 모습 역시 꽤나 억제되었다. 이는 relu에 비해 tanh 가 같고 있는 특성으로 인해 발생한 특징인 것 같은데, 아래 글에 따르면 rnn 모델의 경우 적합한 활성 함수에 대해 tanh를 소개한게 어느 정도 유효한 듯 하다.
 
 [머신러닝 모델 활성화 함수(Activation function) 선택 방법 (tistory.com)](https://joytk.tistory.com/51#:~:text=ReLU%20%28Rectified%20Linear%20Activation%29%20%EB%8F%84%EC%B6%9C%20%EA%B0%92%20%3A%200~N,%3A%200~1%20%EC%82%AC%EC%9D%B4%20%EA%B0%92%203.%20Tanh%20%28Hyperboic%20Tangent%29)
 
-![](assets/20230713_113434_image.png)
+![](/assets/20230713_113434_image.png)
 
 출처 : https://machinelearningmastery.com/choose-an-activation-function-for-deep-learning/
 
