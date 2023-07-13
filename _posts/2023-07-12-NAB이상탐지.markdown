@@ -75,7 +75,7 @@ set_matplotlib_formats('retina', quality=100)
 
 ### 데이터 구조
 
-![](assets/20230712_104338_image.png)
+![](assets/20230712_104338_text.png)
 
 프로젝트의 데이터셋은 대부분 csv 파일 형식으로 되어 있으며, pandas를 통해 csv 파일을 읽고 이를 numpy 라이브러리로 선형대수적(linear-algbrea) 방식으로 데이터를 계산하고 해석하는 절차를 통해 프로젝트에서 이상값을 탐지 - 후속 절차를 진행한다.
 
@@ -115,11 +115,11 @@ traffic.plot()
 
 cpu - network - traffic
 
-![](assets/20230712_112031_1.png)
+![](./assets/20230712_112031_1.png)
 
-![](assets/20230712_112031_2.png)
+![](./assets/20230712_112031_2.png)
 
-![](assets/20230712_112031_3.png)
+![](./assets/20230712_112031_3.png)
 
 cpu 데이터의 경우, 다른 데이터에 비해 노이즈가 있는 편이고 네트워크 데이터는 특정 시점에서 급격한 상승이 발생하며, 교통 데이터는 일부 이상값이 존재하는 데이터 패턴을 확인할 수 있다.
 
@@ -214,8 +214,8 @@ class StreamingMovingAverage:
                 response = True
                 ## 임계값의 timestamp와 값을 출력하도록 설정하기 위해 저장 
                 self.anomally[timestamp] = {'timestamp': timestamp, 'value': value}
-        
-        
+      
+      
 
         # dumping or not
         if dumping: return (response, curr_value, deviation)
@@ -431,12 +431,11 @@ twitter | network
 
 사실 cpu는 사용량 애초에 낮은데 분석할 이유가 있나?
 
+# 2일차
 
-# 2일차 
+2일차에는 1일차 마지막에 있는 모델 상태를 좀 더 개선하는 방향으로 진행하는 것을 목표로 했으며, 그 중 가장 먼저 사용하는 방법은 relu? 활성 함수를 tanh 함수로 바꾸는 방법으로 진행하였다.
 
-2일차에는 1일차 마지막에 있는 모델 상태를 좀 더 개선하는 방향으로 진행하는 것을 목표로 했으며, 그 중 가장 먼저 사용하는 방법은 relu? 활성 함수를 tanh 함수로 바꾸는 방법으로 진행하였다. 
-
-일단, 생각보다 결과가 잘 나온? 편이지만 한 개의 모델로 4가지 데이터를 사용하는건 썩 좋지 않았던 것 같다. 다만 이 방법으로도 유의미한 이상 탐지가 가능하여 특정 데이터는 이 모델로 이상 탐지를 진행하는 편이 좋은 것 같다. 
+일단, 생각보다 결과가 잘 나온? 편이지만 한 개의 모델로 4가지 데이터를 사용하는건 썩 좋지 않았던 것 같다. 다만 이 방법으로도 유의미한 이상 탐지가 가능하여 특정 데이터는 이 모델로 이상 탐지를 진행하는 편이 좋은 것 같다.
 
 ```
 import pandas as pd
@@ -499,26 +498,25 @@ LSTM_TRY(traffic)
 LSTM_TRY(twitter)
 ```
 
-사용한 코드 
+사용한 코드
 
-결과 
+결과
 
-cpu | network 
+cpu | network
 
-traffic | twitter 
+traffic | twitter
 
 ![](assets/20230713_113210_image.png)
 
-트위터에 한해선 생각보다 잘 나온 이상 탐지가 수행되었으며, traffic 에 대해서도 어제 보지 못했던 낮은 값에 점이 찍혀있는 모습 역시 꽤나 억제되었다. 이는 relu에 비해 tanh 가 같고 있는 특성으로 인해 발생한 특징인 것 같은데, 아래 글에 따르면 rnn 모델의 경우 적합한 활성 함수에 대해 tanh를 소개한게 어느 정도 유효한 듯 하다. 
+트위터에 한해선 생각보다 잘 나온 이상 탐지가 수행되었으며, traffic 에 대해서도 어제 보지 못했던 낮은 값에 점이 찍혀있는 모습 역시 꽤나 억제되었다. 이는 relu에 비해 tanh 가 같고 있는 특성으로 인해 발생한 특징인 것 같은데, 아래 글에 따르면 rnn 모델의 경우 적합한 활성 함수에 대해 tanh를 소개한게 어느 정도 유효한 듯 하다.
 
-[머신러닝 모델 활성화 함수(Activation function) 선택 방법 (tistory.com)](https://joytk.tistory.com/51#:~:text=ReLU%20%28Rectified%20Linear%20Activation%29%20%EB%8F%84%EC%B6%9C%20%EA%B0%92%20%3A%200~N,%3A%200~1%20%EC%82%AC%EC%9D%B4%20%EA%B0%92%203.%20Tanh%20%28Hyperboic%20Tangent%29) 
-
+[머신러닝 모델 활성화 함수(Activation function) 선택 방법 (tistory.com)](https://joytk.tistory.com/51#:~:text=ReLU%20%28Rectified%20Linear%20Activation%29%20%EB%8F%84%EC%B6%9C%20%EA%B0%92%20%3A%200~N,%3A%200~1%20%EC%82%AC%EC%9D%B4%20%EA%B0%92%203.%20Tanh%20%28Hyperboic%20Tangent%29)
 
 ![](assets/20230713_113434_image.png)
 
-출처 : https://machinelearningmastery.com/choose-an-activation-function-for-deep-learning/ 
+출처 : https://machinelearningmastery.com/choose-an-activation-function-for-deep-learning/
 
+추가적으로 수행할 함수의 경우 다른 레이블을 붙여 anomaly의 전조 증상으로 취급하는 것이 좋을 것 같다는 생각과, 각 모델별로 좀 더 다른 형태의 모델로 변형하여 모델의 고도화를 진행하면 유용할 듯 하다.
 
-추가적으로 수행할 함수의 경우 다른 레이블을 붙여 anomaly의 전조 증상으로 취급하는 것이 좋을 것 같다는 생각과, 각 모델별로 좀 더 다른 형태의 모델로 변형하여 모델의 고도화를 진행하면 유용할 듯 하다. 
 
 checked 라는 레이블을 붙여, 해당 값이 checked 인지 판단하도록 평가를 진행하고, 해당 평가를 통해 checked 상태와 anomaly 상태의 비교를 진행하고 각 데이터별로 threshold 를 나눠서 진행하는 것을 해보려 한다.
