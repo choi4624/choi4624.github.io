@@ -1,20 +1,15 @@
 ---
 layout: post
-title:  "2023-07-12-NAB이상탐지"
-date:   2023-07-12 10:31:00 +0900
+title: "2023-07-12-NAB이상탐지"
+date: 2023-07-12 10:31:00 +0900
 categories: computer
-tags: [python, ipynb, data,linearAlgebra,kaggle,swproject]
+tags: \[python, ipynb, data,linearAlgebra,kaggle,swproject\]
 comments: treu
 ---
+
 # 시계열 데이터를 통한 이상 탐지 방식 (Numenta Anomaly)
 
-본 프로젝트는 아래의 캐글 데이터셋을 통해 실행한 벤치마크 및 데이터 탐색 및 결과에 대해 소개하는 글 
-
-[20230713_125122_2022-09-01_231109.png](/assets20230713_125122_2022-09-01_231109.png)
-
-입니다.
-
-
+본 프로젝트는 아래의 캐글 데이터셋을 통해 실행한 벤치마크 및 데이터 탐색 및 결과에 대해 소개하는 글 입니다.
 
 데이터셋: [Numenta Anomaly Benchmark (NAB) | Kaggle](https://www.kaggle.com/datasets/boltzmannbrain/nab?resource=download)
 
@@ -88,8 +83,8 @@ set_matplotlib_formats('retina', quality=100)
 코랩이나 다른 클라우드 시스템의 경우 파일을 업로드하고 이를 압축 해제하는게 먼저인데 (왜 코랩은 폴더채로 업로드를 막은건지) 아래 간단한 코드를 사용하여 해제하고 작동할 수 있다.
 
 ```
-## colab start the "/content" url to upload file (recommanded) 
-## 만약 jupyter 등의 다른 노트북을 쓴다면, 경로를 재주것 바꿔주자. 아래 소개할 코드들도 다 /content/NAB로 진행됨  
+## colab start the "/content" url to upload file (recommanded)
+## 만약 jupyter 등의 다른 노트북을 쓴다면, 경로를 재주것 바꿔주자. 아래 소개할 코드들도 다 /content/NAB로 진행됨
 import zipfile
 with zipfile.ZipFile('/content/archive.zip', 'r') as zip_ref:
     zip_ref.extractall('/content/NAB')
@@ -100,18 +95,18 @@ with zipfile.ZipFile('/content/archive.zip', 'r') as zip_ref:
 ```
 
 
-## input data 
+## input data
 cpu = pd.read_csv('/content/NAB/realAWSCloudwatch/realAWSCloudwatch/ec2_cpu_utilization_53ea38.csv')
 network = pd.read_csv('/content/NAB/realAWSCloudwatch/realAWSCloudwatch/ec2_network_in_5abac7.csv')
 traffic = pd.read_csv('/content/NAB/realTraffic/realTraffic/TravelTime_387.csv')
 
-## 각각 cpu, network, traffic 관련 데이터 원본 
+## 각각 cpu, network, traffic 관련 데이터 원본
 ```
 
 데이터 양이 많은 편 이므로, 이 중 몇개에 대해서만 관련 데이터를 넣고 이를 출력하도록 한다
 
 ```
-## ploting data 
+## ploting data
 cpu.plot()
 network.plot()
 traffic.plot()
@@ -154,7 +149,7 @@ def plot_anomalies(dfs, algorithm, parameters, title=False, dumping=False):
     fig.suptitle(f'Anomaly Detection - {model_name} ({parameters})')
     xlin, xcol = 0, 0
     for i, df in enumerate(dfs):
-        # get data 
+        # get data
         get_timestamp = lambda x: dt.datetime.strptime(x,'%Y-%m-%d %H:%M:%S').timestamp()
         X = df.timestamp.apply(lambda x: int(get_timestamp(x)))
         Y = df.value
@@ -175,16 +170,16 @@ def plot_anomalies(dfs, algorithm, parameters, title=False, dumping=False):
         # update posix
         xlin += 1
         if xlin == lin: xlin,xcol = 0, xcol+1
-  
+
 
     plt.tight_layout()
     plt.show()
 
-    ## print anomally 
+    ## print anomally
    ## model.print();
 ```
 
-1. 일단 단순한 모델을 사용하여 시각화
+1.  일단 단순한 모델을 사용하여 시각화
 
 thershold 가 1이냐 2냐에 따른 차이 비교를 진행하는데 아래의 코드를 사용하여 다음과 같은 plot 를 그리도록 하였다.
 
@@ -199,12 +194,12 @@ class StreamingMovingAverage:
         self.min_nof_records_in_model = 3
         self.max_nof_records_in_model = 3 * self.min_nof_records_in_model
         self.anomally = {}
-  
+
 
     def detect(self, timestamp: int, value: float, dumping: bool=False) -> bool:
         '''Detect if is a Anomaly'''
-        ## plot_anomalies 클래스에 preds = [model.detect(i, v, dumping=True) for i, v in zip(X, Y)] 에서 작동하는 코드 
-  
+        ## plot_anomalies 클래스에 preds = [model.detect(i, v, dumping=True) for i, v in zip(X, Y)] 에서 작동하는 코드
+
 
         self._update_state(timestamp, value)
         expected_value = self._expected_value(timestamp)
@@ -218,10 +213,10 @@ class StreamingMovingAverage:
             # when it is higher than expected
             if expected_value + deviation < value:
                 response = True
-                ## 임계값의 timestamp와 값을 출력하도록 설정하기 위해 저장 
+                ## 임계값의 timestamp와 값을 출력하도록 설정하기 위해 저장
                 self.anomally[timestamp] = {'timestamp': timestamp, 'value': value}
-  
-  
+
+
 
         # dumping or not
         if dumping: return (response, curr_value, deviation)
@@ -273,7 +268,7 @@ class StreamingMovingAverage:
             setattr(_self, key, value)
 
 
-## pandas 를 이용해 이상 값 프린팅 
+## pandas 를 이용해 이상 값 프린팅
     def print(self):
       anomally = self.anomally
       df = pd.DataFrame.from_dict(anomally, orient='index', columns=['timestamp', 'value'])
@@ -288,7 +283,7 @@ class StreamingMovingAverage:
 
 시각화에 따른 결과를 분석한 결과 해당 알고리즘에선 theresold, 임계값에 대한 부분이 이상값이냐 아니냐를 분석하는 데에 큰 영향을 미친다. 수학적 알고리즘 방식으로 분석된 데이터의 경우 timestamp 간의 비교를 통해 어떤 임계점이 있는 경우를 이상값으로 판단하는 경향이 있는 듯 하다.
 
-2. StreamingMovingMAD를 통해 시각화
+1.  StreamingMovingMAD를 통해 시각화
 
 해당 방법으로 시각화를 하는 알고리즘과 곧 후술할 LSTM 모델을 통한 시각화 이렇게 진행할 것이다. 이 모델 사용한 이유는, 평균분산을 바탕으로 한 특별한 요소가 있으면서 코드가 비교적 간결하여 LSTM 과의 비교가 용이할 것으로 예상되었기 때문이다.
 
@@ -310,13 +305,13 @@ class StreamingMovingMAD(StreamingMovingAverage):
     def _enough_data(self) -> bool:
         '''Check if there is enough data'''
         return len(self.data_streaming) > 0
-  
+
     def _standard_deviation(self) -> float:
         '''Return the standard deviation'''
         data = self.data_streaming
         data = pd.Series(data=data, dtype=float)
         variance = mean_abs_dev(data) - data
-        return pow(sum(variance ** 2) / len(data), 1/2)  
+        return pow(sum(variance ** 2) / len(data), 1/2)
 
     def _expected_value(self, timestamp: int) -> float:
         '''Return the expected value'''
@@ -342,11 +337,11 @@ plot_anomalies([cpu, network, traffic, twitter], algorithm, parameters, title)
 
 ### LSTM을 통한 데이터 분석 및 시각화
 
-1. LSTM은 무엇인가
+1.  LSTM은 무엇인가
 
 ![](/assets/20230712_152936_2023-07-12_152921.png)
 
-무슨 이상한 필기가 같이 적혀있는데, 크게 신경 쓸 필요 없이 게이트 여러개로 기억을 유지하면서 일부는  유지하고, 새로운 데이터를 받아들여가면서 장기적인 시계열 데이터에 적합한 모델로 소개가 된 모델이다.이를 묘사한 논리 회로도가 위와 같다.
+무슨 이상한 필기가 같이 적혀있는데, 크게 신경 쓸 필요 없이 게이트 여러개로 기억을 유지하면서 일부는 유지하고, 새로운 데이터를 받아들여가면서 장기적인 시계열 데이터에 적합한 모델로 소개가 된 모델이다.이를 묘사한 논리 회로도가 위와 같다.
 
 방구석 데이터사이언티스트는 이걸 뿌리부터 건들 필요 없이. `model.add(LSTM(50, activation='relu', input_shape=(None, 1)))` 이거 한줄만 쳐도 된다. 정확한 사용 방법은 텐서플로우 model api를 참고해가면서 활성함수나 노드개수 등등등을 지정하면서 조정을 할 필요가 있으나 이 프로젝트에선 제공되는 데이터가 크게 무겁지 않기 때문에 기본적인 부분만 조정하여 작성한다.
 
@@ -356,33 +351,33 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
 
-## 위에서 이미 import 한 패키지면 아래는 생략 가능 
+## 위에서 이미 import 한 패키지면 아래는 생략 가능
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
 
 # Step 1: Load and preprocess data
 
 data = pd.read_csv('/content/NAB/realAWSCloudwatch/realAWSCloudwatch/ec2_cpu_utilization_53ea38.csv')
-data['timestamp'] = pd.to_datetime(data['timestamp']) 
-## timestamp 영역의 데이터는 String으로 읽었으므로, unix datetime으로 변환이 필요하다 
+data['timestamp'] = pd.to_datetime(data['timestamp'])
+## timestamp 영역의 데이터는 String으로 읽었으므로, unix datetime으로 변환이 필요하다
 data['timestamp'] = data['timestamp'].astype(np.int64)  # Convert to nanoseconds since the Unix epoch
 values = data['value'].values.reshape(-1, 1)
 
 # Normalize the 'timestamp' column
 scaler = MinMaxScaler()
 data['timestamp'] = scaler.fit_transform(data['timestamp'].values.reshape(-1, 1))
-## datetime을 normalize 하여 위의 비 LSTM 모델과 유사한 그래프를 그릴 수 있도록 설정 
+## datetime을 normalize 하여 위의 비 LSTM 모델과 유사한 그래프를 그릴 수 있도록 설정
 
 # Step 2: Split data into training and test sets
 train_size = int(len(values) * 0.8)
 train_data, test_data = values[:train_size], values[train_size:]
 train_timestamps, test_timestamps = data['timestamp'][:train_size], data['timestamp'][train_size:]
-## 항상 train 과 test 데이터를 8:2로 나누는 것이 적절하다고 항상 이렇게 나눈다. 
+## 항상 train 과 test 데이터를 8:2로 나누는 것이 적절하다고 항상 이렇게 나눈다.
 
 # Step 3: Build and train LSTM model
 model = Sequential()
-## 시퀸셜 모델 << cnn대비 rnn에 적합하도록 모델 설정 
+## 시퀸셜 모델 << cnn대비 rnn에 적합하도록 모델 설정
 model.add(LSTM(50, activation='relu', input_shape=(None, 1)))
 model.add(Dense(1))
 model.compile(optimizer='adam', loss='mse')
@@ -392,7 +387,7 @@ model.fit(train_data, train_data, epochs=25, batch_size=128)
 predicted_values = model.predict(test_data)
 mse = np.mean(np.power(test_data - predicted_values, 2), axis=1)
 threshold = np.percentile(mse, 75)  # Adjust the percentile threshold as needed
-## 70~95 사이를 설정, 이 값이 곧 모델의 민감한 정도?를 판단할 수 있는 기준이 된다. 
+## 70~95 사이를 설정, 이 값이 곧 모델의 민감한 정도?를 판단할 수 있는 기준이 된다.
 anomalies = np.where(mse > threshold)[0]
 
 
@@ -403,10 +398,9 @@ plt.xlabel('Normalized Timestamp')
 plt.ylabel('Value')
 plt.legend()
 plt.show()
-
 ```
 
-1. ec2_cpu_utilization_53ea38 분석 결과
+1.  ec2_cpu_utilization_53ea38 분석 결과
 
 ![](/_posts//assets/20230712_154345_8.png)
 
@@ -416,7 +410,7 @@ threshold를 75 정도로 설정했을 때의 이상 감임을 판단할 수 있
 
 또한, 가장 큰 이상값 3군데 중 2군데는 꼭짓점이 아닌, 증가하고 감소하는 영역에서 이를 이상 값으로 판정했는데 다른 데이터세트도 동일하게 분석해야 결과가 나올 듯 하다.
 
-2. 4개 데이터를 동일하게 처리한 결과
+1.  4개 데이터를 동일하게 처리한 결과
 
 ![](/assets/20230712_164652_2023-07-12_164640.png)
 
@@ -426,7 +420,7 @@ threshold를 75 정도로 설정했을 때의 이상 감임을 판단할 수 있
 
 아래: threshold 90
 
-cpu | traffic
+cpu | traffic  
 twitter | network
 
 순서로 배치됨
@@ -525,3 +519,5 @@ traffic | twitter
 추가적으로 수행할 함수의 경우 다른 레이블을 붙여 anomaly의 전조 증상으로 취급하는 것이 좋을 것 같다는 생각과, 각 모델별로 좀 더 다른 형태의 모델로 변형하여 모델의 고도화를 진행하면 유용할 듯 하다.
 
 checked 라는 레이블을 붙여, 해당 값이 checked 인지 판단하도록 평가를 진행하고, 해당 평가를 통해 checked 상태와 anomaly 상태의 비교를 진행하고 각 데이터별로 threshold 를 나눠서 진행하는 것을 해보려 한다.
+
+![](/assets/20230713_125806_2022-09-01_235755.png)
