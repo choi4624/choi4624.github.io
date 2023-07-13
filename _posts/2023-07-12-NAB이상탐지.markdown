@@ -214,8 +214,8 @@ class StreamingMovingAverage:
                 response = True
                 ## 임계값의 timestamp와 값을 출력하도록 설정하기 위해 저장 
                 self.anomally[timestamp] = {'timestamp': timestamp, 'value': value}
-      
-      
+  
+  
 
         # dumping or not
         if dumping: return (response, curr_value, deviation)
@@ -402,7 +402,7 @@ plt.show()
 
 1. ec2_cpu_utilization_53ea38 분석 결과
 
-![](assets/20230712_154345_8.png)
+![](/_posts/assets/20230712_154345_8.png)
 
 threshold를 75 정도로 설정했을 때의 이상 감임을 판단할 수 있는 마커의 분포 형태
 
@@ -517,6 +517,5 @@ traffic | twitter
 출처 : https://machinelearningmastery.com/choose-an-activation-function-for-deep-learning/
 
 추가적으로 수행할 함수의 경우 다른 레이블을 붙여 anomaly의 전조 증상으로 취급하는 것이 좋을 것 같다는 생각과, 각 모델별로 좀 더 다른 형태의 모델로 변형하여 모델의 고도화를 진행하면 유용할 듯 하다.
-
 
 checked 라는 레이블을 붙여, 해당 값이 checked 인지 판단하도록 평가를 진행하고, 해당 평가를 통해 checked 상태와 anomaly 상태의 비교를 진행하고 각 데이터별로 threshold 를 나눠서 진행하는 것을 해보려 한다.
