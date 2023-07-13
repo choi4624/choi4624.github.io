@@ -7,7 +7,6 @@ tags: [python, ipynb, data,linearAlgebra,kaggle,swproject]
 ---
 # 시계열 데이터를 통한 이상 탐지 방식 (Numenta Anomaly)
 
-
 데이터셋: [Numenta Anomaly Benchmark (NAB) | Kaggle](https://www.kaggle.com/datasets/boltzmannbrain/nab?resource=download)
 
 유용한 코드: [Anomaly Detection - Streaming Data (Extended) | Kaggle](https://www.kaggle.com/code/neomatrix369/anomaly-detection-streaming-data-extended)
@@ -576,8 +575,6 @@ traffic | twitter
 
 notebook의 목차 기능을 이용하면, 영역별로 코드를 보기 좀 더 수월하다.
 
-
-
 ## 라이브러리 및 설정 정리
 
 ---
@@ -835,10 +832,17 @@ test_model(twitter)  # Test the Twitter dataset
 
 ```
 
-
-
-
 # 결론
+
+
+![](/assets/20230713_165242_2023-07-13_165206.png)
+
+수행 결과
+
+데이터 자체의 특징만 보면, twitter와 traffic은 어느정도 연관이 있으며, traffic이 높으면 twitter에도 관련있는 유의미한 결과가 발생한다. 
+
+network 사용이 급증하면, 그 뒤에 CPU의 사용량이 증가하는 경향이 있다. 다만 항상 그렇지는 않다. 
+
 
 이상 값 탐지를 통해 LSTM 모델과 일반 알고리즘을 사용한 탐지는 몇 가지 차이가 난다.
 
