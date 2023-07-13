@@ -22,6 +22,8 @@ numpy와 pandas를 통해 데이터 처리 및 분류를 진행하며, 본 프�
 
 위 데이터 글을 통해 소개된 몇몇 알고리즘과 데이터에 대한 분석을 함과 동시에, 시각화만 하지 말고 데이터 처리에 대한 결과를 출력함으로서 후속 처리 절차 (경고 메시지를 보내거나, 그래프에서 빼버리고 점으로만 표시한다던지)를 진행한다.
 
+# 1일차
+
 ## 데이터 탐색
 
 ```
@@ -212,8 +214,8 @@ class StreamingMovingAverage:
                 response = True
                 ## 임계값의 timestamp와 값을 출력하도록 설정하기 위해 저장 
                 self.anomally[timestamp] = {'timestamp': timestamp, 'value': value}
-          
-          
+        
+        
 
         # dumping or not
         if dumping: return (response, curr_value, deviation)
@@ -408,27 +410,115 @@ threshold를 75 정도로 설정했을 때의 이상 감임을 판단할 수 있
 
 또한, 가장 큰 이상값 3군데 중 2군데는 꼭짓점이 아닌, 증가하고 감소하는 영역에서 이를 이상 값으로 판정했는데 다른 데이터세트도 동일하게 분석해야 결과가 나올 듯 하다.
 
-
 2. 4개 데이터를 동일하게 처리한 결과
-
 
 ![](assets/20230712_164652_2023-07-12_164640.png)
 
-
 ![](assets/20230712_164910_image.png)
 
+위: threshold 75
 
-위: threshold 75 
-
-아래: threshold 90 
+아래: threshold 90
 
 cpu | traffic
-twitter | network 
+twitter | network
 
-순서로 배치됨 
+순서로 배치됨
 
-좀 더 확인해봐야 할 것 같지만, 비교적 cpu와 twitter의 경우 이상 값을 판단하고 이를 마커에 넣어두는게 좀 더 유의미한 반면에, traffic과 network에 대해서는 이상 값을 판단하지를 못하고 threshold를 조절하더라도 안되는 경우가 나온다. 최악은 network인데, 통신이 적은 걸 이상 값으로 판단하는 상태이다. 
+좀 더 확인해봐야 할 것 같지만, 비교적 cpu와 twitter의 경우 이상 값을 판단하고 이를 마커에 넣어두는게 좀 더 유의미한 반면에, traffic과 network에 대해서는 이상 값을 판단하지를 못하고 threshold를 조절하더라도 안되는 경우가 나온다. 최악은 network인데, 통신이 적은 걸 이상 값으로 판단하는 상태이다.
 
-모델을 조정하여 해당 데이터가 좀 더 유용하도록 수정할 필요가 있으며, 내일 좀 더 조정한 다음에 유의미한 분석과 모델 구성을 진행해야 할 듯 하다. 또한, cpu 데이터의 경우 사용량이 낮은 건 중요하지 않은데 이를 이상 값으로 판단하는 상황인 만큼 이를 제어하는 것 역시 필요해 보인다. 
+모델을 조정하여 해당 데이터가 좀 더 유용하도록 수정할 필요가 있으며, 내일 좀 더 조정한 다음에 유의미한 분석과 모델 구성을 진행해야 할 듯 하다. 또한, cpu 데이터의 경우 사용량이 낮은 건 중요하지 않은데 이를 이상 값으로 판단하는 상황인 만큼 이를 제어하는 것 역시 필요해 보인다.
 
 사실 cpu는 사용량 애초에 낮은데 분석할 이유가 있나?
+
+
+# 2일차 
+
+2일차에는 1일차 마지막에 있는 모델 상태를 좀 더 개선하는 방향으로 진행하는 것을 목표로 했으며, 그 중 가장 먼저 사용하는 방법은 relu? 활성 함수를 tanh 함수로 바꾸는 방법으로 진행하였다. 
+
+일단, 생각보다 결과가 잘 나온? 편이지만 한 개의 모델로 4가지 데이터를 사용하는건 썩 좋지 않았던 것 같다. 다만 이 방법으로도 유의미한 이상 탐지가 가능하여 특정 데이터는 이 모델로 이상 탐지를 진행하는 편이 좋은 것 같다. 
+
+```
+import pandas as pd
+import numpy as np
+import tensorflow as tf
+from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense
+import matplotlib.pyplot as plt
+
+## input data
+
+
+def LSTM_TRY(data):
+  # Step 1: Load and preprocess data
+  data['timestamp'] = pd.to_datetime(data['timestamp'])
+  data['timestamp'] = data['timestamp'].astype(np.int64)  # Convert to nanoseconds since the Unix epoch
+  values = data['value'].values.reshape(-1, 1)
+
+  # Normalize the 'timestamp' column
+  scaler = MinMaxScaler()
+  data['timestamp'] = scaler.fit_transform(data['timestamp'].values.reshape(-1, 1))
+
+  # Step 2: Split data into training and test sets
+  train_size = int(len(values) * 0.8)
+  train_data, test_data = values[:train_size], values[train_size:]
+  train_timestamps, test_timestamps = data['timestamp'][:train_size], data['timestamp'][train_size:]
+
+  # Step 3: Build and train LSTM model
+  model = Sequential()
+  model.add(LSTM(50, activation='tanh', input_shape=(None, 1)))
+  model.add(Dense(1))
+  model.compile(optimizer='adam', loss='mse')
+  model.fit(train_data, train_data, epochs=25, batch_size=128)
+
+  # Step 4: Perform anomaly detection
+  predicted_values = model.predict(test_data)
+  mse = np.mean(np.power(test_data - predicted_values, 2), axis=1)
+  threshold = np.percentile(mse, 90)  # Adjust the percentile threshold as needed
+  anomalies = np.where(mse > threshold)[0]
+
+  # Step 5: Create plot with marked anomalies
+  plt.plot(test_timestamps, test_data, label='Actual')
+  plt.scatter(np.take(test_timestamps, anomalies), np.take(test_data, anomalies), color='red', label='Anomaly')
+  plt.xlabel('Normalized Timestamp')
+  plt.ylabel('Value')
+  plt.legend()
+  plt.show()
+
+cpu = pd.read_csv('/content/NAB/realAWSCloudwatch/realAWSCloudwatch/ec2_cpu_utilization_53ea38.csv')
+network = pd.read_csv('/content/NAB/realAWSCloudwatch/realAWSCloudwatch/ec2_network_in_5abac7.csv')
+traffic = pd.read_csv('/content/NAB/realTraffic/realTraffic/TravelTime_387.csv')
+twitter = pd.read_csv('/content/NAB/realTweets/realTweets/Twitter_volume_CVS.csv')
+
+
+
+LSTM_TRY(cpu)
+LSTM_TRY(network)
+LSTM_TRY(traffic)
+LSTM_TRY(twitter)
+```
+
+사용한 코드 
+
+결과 
+
+cpu | network 
+
+traffic | twitter 
+
+![](assets/20230713_113210_image.png)
+
+트위터에 한해선 생각보다 잘 나온 이상 탐지가 수행되었으며, traffic 에 대해서도 어제 보지 못했던 낮은 값에 점이 찍혀있는 모습 역시 꽤나 억제되었다. 이는 relu에 비해 tanh 가 같고 있는 특성으로 인해 발생한 특징인 것 같은데, 아래 글에 따르면 rnn 모델의 경우 적합한 활성 함수에 대해 tanh를 소개한게 어느 정도 유효한 듯 하다. 
+
+[머신러닝 모델 활성화 함수(Activation function) 선택 방법 (tistory.com)](https://joytk.tistory.com/51#:~:text=ReLU%20%28Rectified%20Linear%20Activation%29%20%EB%8F%84%EC%B6%9C%20%EA%B0%92%20%3A%200~N,%3A%200~1%20%EC%82%AC%EC%9D%B4%20%EA%B0%92%203.%20Tanh%20%28Hyperboic%20Tangent%29) 
+
+
+![](assets/20230713_113434_image.png)
+
+출처 : https://machinelearningmastery.com/choose-an-activation-function-for-deep-learning/ 
+
+
+추가적으로 수행할 함수의 경우 다른 레이블을 붙여 anomaly의 전조 증상으로 취급하는 것이 좋을 것 같다는 생각과, 각 모델별로 좀 더 다른 형태의 모델로 변형하여 모델의 고도화를 진행하면 유용할 듯 하다. 
+
+checked 라는 레이블을 붙여, 해당 값이 checked 인지 판단하도록 평가를 진행하고, 해당 평가를 통해 checked 상태와 anomaly 상태의 비교를 진행하고 각 데이터별로 threshold 를 나눠서 진행하는 것을 해보려 한다.
