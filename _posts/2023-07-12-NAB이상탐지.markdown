@@ -398,7 +398,7 @@ plt.show()
 
 1. ec2_cpu_utilization_53ea38 분석 결과
 
-![](/_posts//assets/20230712_154345_8.png)
+![](/assets/20230712_154345_8.png)
 
 threshold를 75 정도로 설정했을 때의 이상 감임을 판단할 수 있는 마커의 분포 형태
 
