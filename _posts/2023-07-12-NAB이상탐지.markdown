@@ -518,3 +518,41 @@ traffic | twitter
 추가적으로 수행할 함수의 경우 다른 레이블을 붙여 anomaly의 전조 증상으로 취급하는 것이 좋을 것 같다는 생각과, 각 모델별로 좀 더 다른 형태의 모델로 변형하여 모델의 고도화를 진행하면 유용할 듯 하다.
 
 checked 라는 레이블을 붙여, 해당 값이 checked 인지 판단하도록 평가를 진행하고, 해당 평가를 통해 checked 상태와 anomaly 상태의 비교를 진행하고 각 데이터별로 threshold 를 나눠서 진행하는 것을 해보려 한다.
+
+
+![](../assets/20230713_142005_2023-07-13_140445.png)
+
+cpu | network
+
+traffic | twitter
+
+```
+  # Step 3: Build and train LSTM model
+  model = Sequential()
+  model.add(LSTM(50, activation='tanh', input_shape=(None, 1)))
+  model.add(Dense(1))
+  model.compile(optimizer='adam', loss='mse')
+  model.fit(train_data, train_data, epochs=25, batch_size=128)
+
+  # Step 4: Perform anomaly detection
+  predicted_values = model.predict(test_data)
+  mse = np.mean(np.power(test_data - predicted_values, 2), axis=1)
+  threshold1 = np.percentile(mse, 90)  # Adjust the percentile threshold as needed
+  threshold2 = np.percentile(mse, 97)  # Adjust the percentile threshold as needed
+
+  checked = np.where((threshold2 > mse) & (mse > threshold1))[0]
+  anomalies = np.where(mse > threshold2)[0]
+
+  # Step 5: Create plot with marked anomalies
+  plt.plot(test_timestamps, test_data, label='value')
+  plt.scatter(np.take(test_timestamps, anomalies), np.take(test_data, anomalies), color='red', label='Anomaly')
+  plt.scatter(np.take(test_timestamps, checked), np.take(test_data, checked), color='yellow', label='checked')
+  plt.xlabel('Normalized Timestamp')
+  plt.ylabel('Value')
+```
+
+
+동일하게 tanh 활성함수를 사용하고 임계점을 둘로 나누어서 작업을 진행하였다. mse 기반의 threshold가 90 이상이면 checked, 97 이상이면 anomaly로 분류하여 시각화 하였고 그래도 여전히 한개의 모델을 사용했을 때의 불안정함으로 인해 최종적으로는 각 데이터별로 모델을 달리 하여 결과를 내는 것을 목표로 한다. 
+
+
+그리고, 라벨 안붙은것도 라벨 붙여서 그래프를 한번에 보기 편하게 설정해준다.
