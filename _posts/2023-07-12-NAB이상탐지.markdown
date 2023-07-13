@@ -6,7 +6,6 @@ categories: computer
 tags: \[python, ipynb, data,linearAlgebra,kaggle,swproject\]
 comments: treu
 ---
-
 # 시계열 데이터를 통한 이상 탐지 방식 (Numenta Anomaly)
 
 본 프로젝트는 아래의 캐글 데이터셋을 통해 실행한 벤치마크 및 데이터 탐색 및 결과에 대해 소개하는 글 입니다.
@@ -179,7 +178,7 @@ def plot_anomalies(dfs, algorithm, parameters, title=False, dumping=False):
    ## model.print();
 ```
 
-1.  일단 단순한 모델을 사용하여 시각화
+1. 일단 단순한 모델을 사용하여 시각화
 
 thershold 가 1이냐 2냐에 따른 차이 비교를 진행하는데 아래의 코드를 사용하여 다음과 같은 plot 를 그리도록 하였다.
 
@@ -283,7 +282,7 @@ class StreamingMovingAverage:
 
 시각화에 따른 결과를 분석한 결과 해당 알고리즘에선 theresold, 임계값에 대한 부분이 이상값이냐 아니냐를 분석하는 데에 큰 영향을 미친다. 수학적 알고리즘 방식으로 분석된 데이터의 경우 timestamp 간의 비교를 통해 어떤 임계점이 있는 경우를 이상값으로 판단하는 경향이 있는 듯 하다.
 
-1.  StreamingMovingMAD를 통해 시각화
+1. StreamingMovingMAD를 통해 시각화
 
 해당 방법으로 시각화를 하는 알고리즘과 곧 후술할 LSTM 모델을 통한 시각화 이렇게 진행할 것이다. 이 모델 사용한 이유는, 평균분산을 바탕으로 한 특별한 요소가 있으면서 코드가 비교적 간결하여 LSTM 과의 비교가 용이할 것으로 예상되었기 때문이다.
 
@@ -337,7 +336,7 @@ plot_anomalies([cpu, network, traffic, twitter], algorithm, parameters, title)
 
 ### LSTM을 통한 데이터 분석 및 시각화
 
-1.  LSTM은 무엇인가
+1. LSTM은 무엇인가
 
 ![](/assets/20230712_152936_2023-07-12_152921.png)
 
@@ -400,7 +399,7 @@ plt.legend()
 plt.show()
 ```
 
-1.  ec2_cpu_utilization_53ea38 분석 결과
+1. ec2_cpu_utilization_53ea38 분석 결과
 
 ![](/_posts//assets/20230712_154345_8.png)
 
@@ -410,7 +409,7 @@ threshold를 75 정도로 설정했을 때의 이상 감임을 판단할 수 있
 
 또한, 가장 큰 이상값 3군데 중 2군데는 꼭짓점이 아닌, 증가하고 감소하는 영역에서 이를 이상 값으로 판정했는데 다른 데이터세트도 동일하게 분석해야 결과가 나올 듯 하다.
 
-1.  4개 데이터를 동일하게 처리한 결과
+1. 4개 데이터를 동일하게 처리한 결과
 
 ![](/assets/20230712_164652_2023-07-12_164640.png)
 
@@ -420,7 +419,7 @@ threshold를 75 정도로 설정했을 때의 이상 감임을 판단할 수 있
 
 아래: threshold 90
 
-cpu | traffic  
+cpu | traffic
 twitter | network
 
 순서로 배치됨
@@ -520,4 +519,7 @@ traffic | twitter
 
 checked 라는 레이블을 붙여, 해당 값이 checked 인지 판단하도록 평가를 진행하고, 해당 평가를 통해 checked 상태와 anomaly 상태의 비교를 진행하고 각 데이터별로 threshold 를 나눠서 진행하는 것을 해보려 한다.
 
-![](/assets/20230713_125806_2022-09-01_235755.png)
+
+
+
+![](../assets/20230713_131528_2022-09-01_234431.png)
