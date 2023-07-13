@@ -326,7 +326,7 @@ title = ['CPU Utilization', 'Network Usage', 'Travel Time', 'Twitter Volume']
 plot_anomalies([cpu, network, traffic, twitter], algorithm, parameters, title)
 ```
 
-![](assets/20230712_154300_7png.png)
+![](../assets/20230712_154300_7png.png)
 
 ![](assets/20230712_154311_2023-07-12_154251.png)
 
