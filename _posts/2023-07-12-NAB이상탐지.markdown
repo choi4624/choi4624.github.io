@@ -7,9 +7,9 @@ tags: [python, ipynb, data,linearAlgebra,kaggle,swproject]
 ---
 # 시계열 데이터를 통한 이상 탐지 방식 (Numenta Anomaly)
 
-데이터셋: [Numenta Anomaly Benchmark (NAB) | Kaggle](https://www.kaggle.com/datasets/boltzmannbrain/nab?resource=download)
+데이터셋: [Numenta Anomaly Benchmark (NAB) Kaggle](https://www.kaggle.com/datasets/boltzmannbrain/nab?resource=download)
 
-유용한 코드: [Anomaly Detection - Streaming Data (Extended) | Kaggle](https://www.kaggle.com/code/neomatrix369/anomaly-detection-streaming-data-extended)
+유용한 코드: [Anomaly Detection - Streaming Data (Extended) Kaggle](https://www.kaggle.com/code/neomatrix369/anomaly-detection-streaming-data-extended)
 
 ## 프로젝트 소개
 
