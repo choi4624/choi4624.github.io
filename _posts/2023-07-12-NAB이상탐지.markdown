@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "2023-07-12-NAB이상탐지"
-date: 2023-07-12 10:31:00 +0900
+date: 20230712 10:31:00 +0900
 categories: computer
 tags: \[python, ipynb, data,linearAlgebra,kaggle,swproject\]
 comments: treu
@@ -518,8 +518,3 @@ traffic | twitter
 추가적으로 수행할 함수의 경우 다른 레이블을 붙여 anomaly의 전조 증상으로 취급하는 것이 좋을 것 같다는 생각과, 각 모델별로 좀 더 다른 형태의 모델로 변형하여 모델의 고도화를 진행하면 유용할 듯 하다.
 
 checked 라는 레이블을 붙여, 해당 값이 checked 인지 판단하도록 평가를 진행하고, 해당 평가를 통해 checked 상태와 anomaly 상태의 비교를 진행하고 각 데이터별로 threshold 를 나눠서 진행하는 것을 해보려 한다.
-
-
-
-
-![](../assets/20230713_131528_2022-09-01_234431.png)
