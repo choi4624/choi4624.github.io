@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "20230712-NAB이상탐지"
-date: 20230712 10:31:00 +0900
+date: 2023-07-12 10:31:00 +0900
 categories: computer
 tags: [python, ipynb, data,linearAlgebra,kaggle,swproject\]
 comments: treu
