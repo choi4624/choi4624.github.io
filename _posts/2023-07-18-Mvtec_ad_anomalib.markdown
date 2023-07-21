@@ -263,7 +263,7 @@ drive.mount('/content/drive')
 
 ### 학습 데이터 설정 
 
-![](../assets/20230719_105233_2023-07-19_093944.png)
+![](/assets/20230719_105233_2023-07-19_093944.png)
 
 학습 데이터 역시 구글 드라이브에 설정하여 관련 데이터를 집어넣어 colab 런타임에 매번 데이터를 넣지 않도록 구글 드라이브 마운트시 바로 가져올 수 있도록 한다. 
 
@@ -544,7 +544,7 @@ INFO:pytorch_lightning.callbacks.model_summary:
 ---
 
 
-![](../assets/20230719_105727_image.png)
+![](/assets/20230719_105727_image.png)
 
 1회 epoch가 꽤 긴 시간이 걸리는 무거운 모델이라, 모델을 한 번 학습하고 진행한다. 
 
@@ -564,7 +564,7 @@ INFO:pytorch_lightning.callbacks.model_summary:
 
 참고: `'precision': 32,` 값도 수정할 수 있는데, gpu 가속기라면 16으로 해서 빠른 속도의 연산과 약간의 정확도 손실을 기대할 수 있다. 
 
-![](../assets/20230719_110723_image.png)
+![](/assets/20230719_110723_image.png)
 
 대부분의 최신 gpu의 경우 FP16에 대한 가속을 보장하므로, 거대한 모델이라면 정확도를 희생해 가속을 기대할 수도 있다.
 
@@ -580,7 +580,7 @@ trainer.test(model=model, datamodule=datamodule)
 ```
 
 
-![](../assets/20230719_110917_image.png)
+![](/assets/20230719_110917_image.png)
 
 epoch가 여러 개라면 가장 좋은 모델에 대한 확인과 테스트 결과값을 낸다. 
 
@@ -664,7 +664,7 @@ def get_all_images():
 `vis(full_path, 10, is_random=True, figsize=(30, 30))` 를 실행해 다음과 같은 이미지가 나오면 시각화 완료 
 
 
-![](../assets/20230719_111317_image.png)
+![](/assets/20230719_111317_image.png)
 
 ## 가중치 및 결과 이미지 저장 
 
@@ -685,7 +685,7 @@ shutil.make_archive('results-anmalib-screw', 'zip', '/content/results')
 3. 사용한 patchcore 라는 모델은[[2106.08265] Towards Total Recall in Industrial Anomaly Detection (arxiv.org)](https://arxiv.org/abs/2106.08265) 해당 논문을 통해 만들어진 모델로 기본적으로 인코더 - 디코더 기반의 cnn 모델로 해석된다.
 
 
-![](../assets/20230719_111837_image.png)
+![](/assets/20230719_111837_image.png)
 
 다만 손상된 부분에 대한 feature를 매우 큰 메모리 뱅크에 넣은 다음 여기에 대한 Nearest Neighbour Search를 진행하여 이상 탐지를 이미지 바탕으로 진행하는 방식을 사용하는 점이 다른 모델과의 차이가 있다. 또한, unsupervised training으로 patch를 탐색하고 segmentation을 진행하는 것이 이 모델의 특징이라 볼 수 있다. 
 
