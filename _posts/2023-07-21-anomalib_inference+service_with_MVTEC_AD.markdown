@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "2023-07-21-anomalib inference+service with MVTEC AD"
+title: "2023-07-21-anomalib_inference+service_with_MVTEC_AD"
 date: 2023-07-21 09:00:00 +0900
 categories: computer
 tags: [python, ipynb, data,kaggle,swproject,pytorch,pytorch-lighting,mvtec,anomalib,patchcore,inference]
