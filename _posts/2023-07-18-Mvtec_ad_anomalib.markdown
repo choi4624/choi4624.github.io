@@ -19,7 +19,7 @@ anomalib를 통한 학습을 진행하기 이전에, 기본적인 cnn 모델을 
 
 데이터 구조는 아래와 같으니 이와 유사한 데이터에도 전처리 절차를 진행해도 무방하다.
 
-```
+```text
 #MVTec-Anomaly-Detection
       #data
         #├── class1
@@ -39,7 +39,7 @@ anomalib를 통한 학습을 진행하기 이전에, 기본적인 cnn 모델을 
 
 ### 기본 cnn 모델 전처리 과정
 
-```
+```python
 import os
 from keras.preprocessing.image import ImageDataGenerator
 print(os.getcwd())
@@ -104,7 +104,7 @@ import numpy as np
 
 아래는 rasnet 사용 전 기본적인 cnn 모델의 경우 이러한 방식으로 모델을 정의하고 사용할 수 있는 방법 중 하나이다. MNIST 글자 인식 같으면 이정도면 충분한 모델이나, MVTEC 데이터는 절대 그렇지 않으므로 더 복잡한 모델인 rasnet으로 시작한다.
 
-```
+```python
 # Create a sequential model
 model = Sequential()
 
@@ -140,7 +140,7 @@ history = model.fit(
 
 그 다음에 rasnet을 적용하여 학습을 진행해본다
 
-```
+```python
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 
@@ -157,7 +157,7 @@ tf.keras.applications.ResNet50(
 model = ResNet50(weights='imagenet')
 ```
 
-```
+```python
 
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
@@ -261,18 +261,17 @@ drive.mount('/content/drive')
 
 `%pip install wandb`
 
-### 학습 데이터 설정 
+### 학습 데이터 설정
 
 ![](/assets/20230719_105233_2023-07-19_093944.png)
 
-학습 데이터 역시 구글 드라이브에 설정하여 관련 데이터를 집어넣어 colab 런타임에 매번 데이터를 넣지 않도록 구글 드라이브 마운트시 바로 가져올 수 있도록 한다. 
+학습 데이터 역시 구글 드라이브에 설정하여 관련 데이터를 집어넣어 colab 런타임에 매번 데이터를 넣지 않도록 구글 드라이브 마운트시 바로 가져올 수 있도록 한다.
 
-MVTEC 데이터가 대략 5GB 정도 되므로, 학교용 계정으로는 안하는게 바람직하고 개인 계정으로 사용하거나 임시로 계정을 만들어서 코랩용도로만 사용해도 괜찮다. 
+MVTEC 데이터가 대략 5GB 정도 되므로, 학교용 계정으로는 안하는게 바람직하고 개인 계정으로 사용하거나 임시로 계정을 만들어서 코랩용도로만 사용해도 괜찮다.
 
-주의사항: colab에 드라이브를 마운트하면 드라이브 데이터를 조작하면 드라이브에 바로 반영되니 데이터 삭제 및 유실에 주의 
+주의사항: colab에 드라이브를 마운트하면 드라이브 데이터를 조작하면 드라이브에 바로 반영되니 데이터 삭제 및 유실에 주의
 
 * 공유된 링크로 받는 것은 서로 다른 계정간 연동 문제로 인해 편집 권한이 있어도 정상 작동하지 않을 가능성이 높다.
-
 
 ### 패키지 설정
 
@@ -280,7 +279,8 @@ MVTEC 데이터가 대략 5GB 정도 되므로, 학교용 계정으로는 안하
 
 코랩이 아닌 다른 환경에서 한다면, import 오류가 나는 목록들은 다 import 해주어야 하므로 참고
 
-```
+```python
+
 import numpy as np
 import matplotlib.pyplot as plt
 import os, pprint, yaml, warnings, math, glob, cv2, random, logging
@@ -348,6 +348,8 @@ print(open(os.path.join(MODEL_CONFIG_PAIRS[MODEL]), 'r').read())
 
 ---
 
+```
+
 dataset:
 name: mvtec
 format: mvtec ## MVTec 형식으로 데이터 설정
@@ -378,6 +380,7 @@ remove_border_count: 0
 use_random_tiling: False
 
 ...
+```
 
 ---
 
@@ -447,6 +450,7 @@ pprint.pprint(updated_config) # check if it's updated
 
 #### SCREW 데이터에 대한 설정
 
+```
 'dataset': {'category': 'screw',
 'center_crop': 224,
 'eval_batch_size': 32,
@@ -472,6 +476,7 @@ pprint.pprint(updated_config) # check if it's updated
 'logging': {'log_graph': False, 'logger': []},
 'metrics': {'image': ['F1Score', 'AUROC'],
 'pixel': ['F1Score', 'AUROC'],...
+```
 
 ```
                'log_images': True,
@@ -510,11 +515,11 @@ callbacks  = get_callbacks(config)
 datamodule = get_datamodule(config)
 ```
 
-기본이 될 모델들도 다 불러오고 설정도 다 적용했으면 학습을 시작한다. 
+기본이 될 모델들도 다 불러오고 설정도 다 적용했으면 학습을 시작한다.
 
 * 모델은 외부에서 별도로 가져오는 것이기 때문에 인터넷 환경에 영향을 받으므로 주의
 
-### 학습 진행 
+### 학습 진행
 
 ```
 # start training
@@ -523,8 +528,6 @@ trainer.fit(model=model, datamodule=datamodule)
 ```
 
 ---
-
-
 
 INFO:pytorch_lightning.callbacks.model_summary:
 | Name                  | Type                     | Params
@@ -543,12 +546,11 @@ INFO:pytorch_lightning.callbacks.model_summary:
 
 ---
 
-
 ![](/assets/20230719_105727_image.png)
 
-1회 epoch가 꽤 긴 시간이 걸리는 무거운 모델이라, 모델을 한 번 학습하고 진행한다. 
+1회 epoch가 꽤 긴 시간이 걸리는 무거운 모델이라, 모델을 한 번 학습하고 진행한다.
 
-만약 여러 번 학습을 하고 싶다면 config에 아래 값들을 수정한다. new_update 부분에서 '키' : 값 형식으로 지정한다음 업데이트 하면 된다. 
+만약 여러 번 학습을 하고 싶다면 config에 아래 값들을 수정한다. new_update 부분에서 '키' : 값 형식으로 지정한다음 업데이트 하면 된다.
 
 ```
   'gradient_clip_algorithm': 'norm',
@@ -562,13 +564,13 @@ INFO:pytorch_lightning.callbacks.model_summary:
              'max_steps': -1,
 ```
 
-참고: `'precision': 32,` 값도 수정할 수 있는데, gpu 가속기라면 16으로 해서 빠른 속도의 연산과 약간의 정확도 손실을 기대할 수 있다. 
+참고: `'precision': 32,` 값도 수정할 수 있는데, gpu 가속기라면 16으로 해서 빠른 속도의 연산과 약간의 정확도 손실을 기대할 수 있다.
 
 ![](/assets/20230719_110723_image.png)
 
 대부분의 최신 gpu의 경우 FP16에 대한 가속을 보장하므로, 거대한 모델이라면 정확도를 희생해 가속을 기대할 수도 있다.
 
-## best model check + test 
+## best model check + test
 
 ```
 # load best model from checkpoint before evaluating
@@ -579,12 +581,11 @@ trainer.callbacks.insert(0, load_model_callback)
 trainer.test(model=model, datamodule=datamodule)
 ```
 
-
 ![](/assets/20230719_110917_image.png)
 
-epoch가 여러 개라면 가장 좋은 모델에 대한 확인과 테스트 결과값을 낸다. 
+epoch가 여러 개라면 가장 좋은 모델에 대한 확인과 테스트 결과값을 낸다.
 
-## 시각화 
+## 시각화
 
 ```
 RESULT_PATH = os.path.join(
@@ -596,9 +597,9 @@ RESULT_PATH = os.path.join(
 RESULT_PATH
 ```
 
-여태까지 설정해놓은 프로젝트, 모델, 데이터, 카테고리를 바탕으로 모델을 저장했고 또 이를 불러와서 시각화를 진행한다. 
+여태까지 설정해놓은 프로젝트, 모델, 데이터, 카테고리를 바탕으로 모델을 저장했고 또 이를 불러와서 시각화를 진행한다.
 
-### 시각화 정의 
+### 시각화 정의
 
 ```
 # a simple function to visualize the model's prediction (anomaly heatmap)
@@ -623,7 +624,7 @@ def vis(paths, n_images, is_random=True, figsize=(16, 16)):
     plt.show()
 ```
 
-opencv기반 라이브러리로 이미지를 불러오고 시각화를 반영한다. 
+opencv기반 라이브러리로 이미지를 불러오고 시각화를 반영한다.
 
 ```
 for content in os.listdir(RESULT_PATH):
@@ -635,7 +636,7 @@ for content in os.listdir(RESULT_PATH):
         print(full_path[0].split('/')[-4:-3:])
 ```
 
-아래와 같이 결과가 나오면 성공 
+아래와 같이 결과가 나오면 성공
 
 ```
 Total Image  162
@@ -659,24 +660,22 @@ def get_all_images():
 
 ```
 
-`full_paths = get_all_images()`를 실행하여 경로에 있는 이미지들을 가져오고 결과를 출력하도록 한다. 
+`full_paths = get_all_images()`를 실행하여 경로에 있는 이미지들을 가져오고 결과를 출력하도록 한다.
 
-`vis(full_path, 10, is_random=True, figsize=(30, 30))` 를 실행해 다음과 같은 이미지가 나오면 시각화 완료 
-
+`vis(full_path, 10, is_random=True, figsize=(30, 30))` 를 실행해 다음과 같은 이미지가 나오면 시각화 완료
 
 ![](/assets/20230719_111317_image.png)
 
-## 가중치 및 결과 이미지 저장 
+## 가중치 및 결과 이미지 저장
 
 ```
 import shutil
 shutil.make_archive('results-anmalib-screw', 'zip', '/content/results')
 ```
 
-`!cp -r '/content/results-anmalib-screw.zip' /content/drive/MyDrive/colab/results` 
+`!cp -r '/content/results-anmalib-screw.zip' /content/drive/MyDrive/colab/results`
 
-경로는 환경에 따라 다르므로, 적절한 경로르 지정하고 드라이브에 꼭 옮기도록 한다. 
-
+경로는 환경에 따라 다르므로, 적절한 경로르 지정하고 드라이브에 꼭 옮기도록 한다.
 
 ## 결론
 
@@ -684,11 +683,9 @@ shutil.make_archive('results-anmalib-screw', 'zip', '/content/results')
 2. epoch수를 늘리면 오히려 과적합이 날 기세
 3. 사용한 patchcore 라는 모델은[[2106.08265] Towards Total Recall in Industrial Anomaly Detection (arxiv.org)](https://arxiv.org/abs/2106.08265) 해당 논문을 통해 만들어진 모델로 기본적으로 인코더 - 디코더 기반의 cnn 모델로 해석된다.
 
-
 ![](/assets/20230719_111837_image.png)
 
-다만 손상된 부분에 대한 feature를 매우 큰 메모리 뱅크에 넣은 다음 여기에 대한 Nearest Neighbour Search를 진행하여 이상 탐지를 이미지 바탕으로 진행하는 방식을 사용하는 점이 다른 모델과의 차이가 있다. 또한, unsupervised training으로 patch를 탐색하고 segmentation을 진행하는 것이 이 모델의 특징이라 볼 수 있다. 
-
+다만 손상된 부분에 대한 feature를 매우 큰 메모리 뱅크에 넣은 다음 여기에 대한 Nearest Neighbour Search를 진행하여 이상 탐지를 이미지 바탕으로 진행하는 방식을 사용하는 점이 다른 모델과의 차이가 있다. 또한, unsupervised training으로 patch를 탐색하고 segmentation을 진행하는 것이 이 모델의 특징이라 볼 수 있다.
 
 4. 집에 있는 인텔 arc gpu로 pytorch를 하려 했는데 최근에 파이토치가 2.x 버전으로 올라가면서 인텔 pytorch extension과의 호환이 어긋나버려 진행이 안된다. 아무리 해도 관련 라이브러리들이 다 2.x 기반 파이토치를 쓰게 되어서 실패!
 5. 또한 해당 모델을 바탕으로 베포하는 작업을 진행해야 하는데 베포 작업은 이전에 했던 오만가지 트레이닝과는 아예 인연이 없는데다 spring으로만 웹을 만든 사람에게 너무 무서운 요소가 될 것 같다.
