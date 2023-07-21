@@ -13,7 +13,7 @@ tags: [python, ipynb, data,kaggle,swproject,pytorch,pytorch-lighting,mvtec,anoma
 **Contents :**
 
 * [모델편성](#모델편성)
-* [로컬 환경 진행](#로컬)
+* [로컬환경진행](#로컬환경진행)
 * [문제](#문제)
 * [라이브러리수정](#라이브러리수정)
 * [추론진행](#추론진행)
