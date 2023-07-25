@@ -300,6 +300,9 @@ finetuning 모델은 학습과 사용에 따른 비용이 들어가는 만큼, �
 ### 데이터 입력 및 출력
 
 다른 용도로 쓰인 import도 있으므로 필요한 것만 넣어도 무방하다.
+코드가 좀 어지러워서 그냥 다양한 방법으로 전처리 할 수 있으니 관련된 캐글 프로젝트 목록을 확인해서 전처리한 csv를 import 해주는게 좋을듯
+<https://www.kaggle.com/datasets/thoughtvector/customer-support-on-twitter/code?datasetId=4133&sortBy=voteCount>
+여기에서 어떤 식으로든 전처리 해서 나온 csv를 입력해보는 것을 추천한다.
 
 ```python
 import numpy as np
@@ -551,3 +554,7 @@ openAI API 사용시 모델이나 prompt에 사용할 토큰을 조절해 줘야
 ![](../assets/20230725_133316_2023-07-25_133231.png)
 
 ## 결론
+
+NLP 모델은 남의거 쓰기엔 비싸고
+openai GPT 계열 외에는 여러 다양한 모델들이 나온다.
+다만 거대 모델이 가져다 주는 장점 덕분에 finetuning을 api 단위로 제공해주는 서비스는 꽤 눈여겨볼 만한 것이고 프로젝트 에서도 이러한 최적화된 거대 모델을 만드는 건 어떤 방식으로든 도움이 될 듯 하다.
