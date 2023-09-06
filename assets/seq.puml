@@ -1,0 +1,27 @@
+@startuml
+actor User
+participant Web
+participant DBAPI
+participant Model
+
+User -> DBAPI: 공장 데이터 전송 추론 요청 전송 
+
+User -> DBAPI: 추론 테이블 지정 
+
+DBAPI --> User: 추론 테이블 작업 등록 완료
+DBAPI --> Model: 추론 테이블 정보 확인
+
+Model --> DBAPI: 센서 데이터 요청 
+Model <-- DBAPI: 센서 데이터 전송 
+
+Model -> Model: 신호 처리
+Model -> Model: 신호 데이터 저장
+Model -> Model: 추론 연산 
+Model --> DBAPI: 연산 결과 전송 
+
+Web -> DBAPI: 추론 결과 요청
+Web <-- DBAPI: 추론 결과 전송 
+
+Web --> User: 예측 결과 확인 
+
+@enduml
