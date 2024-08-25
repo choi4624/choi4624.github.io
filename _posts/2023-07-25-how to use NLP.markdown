@@ -1,8 +1,11 @@
 ---
-@Language.factory('language_detector')
-def language_detector(nlp, name):
-    return LanguageDetector()
+layout: post
+title: "2023-07-25-How to use NLP"
+date: 2024-07-25 09:00:00 +0900
+categories: computer
+tags: [소개]
 ---
+
 # How to use NLP
 
 ---
